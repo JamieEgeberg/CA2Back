@@ -5,14 +5,15 @@
  */
 package rest;
 
+import com.google.gson.Gson;
+import data.IPersonFacade;
+import data.PersonFacade;
+
+import javax.persistence.Persistence;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.UriInfo;
-import javax.ws.rs.Produces;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PUT;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.UriInfo;
 
 /**
  * REST Web Service
@@ -22,6 +23,9 @@ import javax.ws.rs.core.MediaType;
 @Path("person")
 public class PersonResource {
 
+    private IPersonFacade facade = new PersonFacade();
+    private static Gson gson = new Gson();
+
     @Context
     private UriInfo context;
 
@@ -29,25 +33,14 @@ public class PersonResource {
      * Creates a new instance of PersonResource
      */
     public PersonResource() {
+        facade.addEntityManagerFactory(
+                Persistence.createEntityManagerFactory("PU"));
     }
 
-    /**
-     * Retrieves representation of an instance of rest.PersonResource
-     * @return an instance of java.lang.String
-     */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public String getJson() {
-        //TODO return proper representation object
-        throw new UnsupportedOperationException();
+    public String getPersons() {
+        return gson.toJson(facade.getPersons());
     }
 
-    /**
-     * PUT method for updating or creating an instance of PersonResource
-     * @param content representation for the resource
-     */
-    @PUT
-    @Consumes(MediaType.APPLICATION_JSON)
-    public void putJson(String content) {
-    }
 }
