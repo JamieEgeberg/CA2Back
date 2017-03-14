@@ -6,12 +6,12 @@
 package data;
 
 import entity.Company;
-import entity.Person;
-import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
+import java.util.List;
 
 /**
  *
@@ -22,22 +22,43 @@ public class CompanyFacade implements ICompanyFacade {
     private EntityManagerFactory emf = Persistence
             .createEntityManagerFactory("PU");
 
+    /**
+     * Add an Entity Manager Factory which will be used for
+     * when generating Entity Managers for the other methods
+     * @param emf
+     */
     @Override
     public void addEntityManagerFactory(EntityManagerFactory emf) {
         this.emf = emf;
     }
 
+    /**
+     * Get a single company by it's Identity id
+     * @param id Identity id
+     * @return single company by id
+     */
     @Override
     public Company getCompany(int id) {
         return getCompany((long) id);
     }
 
+    /**
+     * Get a single company by it's Identity id
+     * @param id Identity id
+     * @return single company by id
+     */
     @Override
     public Company getCompany(long id) {
         EntityManager em = emf.createEntityManager();
         return em.find(Company.class, id);
     }
 
+
+    /**
+     * Get a single company by it's CVR number
+     * @param cvr CVR number
+     * @return single company by CVR number
+     */
     @Override
     public Company getCompany(String cvr) {
         EntityManager em = emf.createEntityManager();
@@ -47,6 +68,10 @@ public class CompanyFacade implements ICompanyFacade {
         return query.getSingleResult();
     }
 
+    /**
+     * Get all companies
+     * @return all companies
+     */
     @Override
     public List<Company> getCompanies() {
         EntityManager em = emf.createEntityManager();
@@ -55,6 +80,11 @@ public class CompanyFacade implements ICompanyFacade {
         return query.getResultList();
     }
 
+    /**
+     * Get all companies with given zip code
+     * @param zipCode zip code
+     * @return all companies located in given zip code
+     */
     @Override
     public List<Company> getCompanies(String zipCode) {
         EntityManager em = emf.createEntityManager();
@@ -64,6 +94,11 @@ public class CompanyFacade implements ICompanyFacade {
         return query.getResultList();
     }
 
+    /**
+     * Get all companies with more employees than the number given
+     * @param employees employee count
+     * @return all companies with more employees than given number
+     */
     @Override
     public List<Company> getCompanies(int employees) {
         EntityManager em = emf.createEntityManager();
