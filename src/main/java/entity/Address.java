@@ -6,56 +6,56 @@
 package entity;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 
 /**
  *
  * @author Jamie
  */
 @Entity
-public class InfoEntity implements Serializable {
+public class Address implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String email;
-   
+    private String street;
+    private String additionalInfo;
     @ManyToOne
-    private Address address;
-    
-    @OneToMany
-    List<Phone> phones = new ArrayList<>();
-    
-    public InfoEntity() {
+    private City city;
+
+    public Address(String street, String additionalInfo) {
+        this.street = street;
+        this.additionalInfo = additionalInfo;
     }
 
-    public InfoEntity(String email) {
-        this.email = email;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-    
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    public String getAdditionalInfo() {
+        return additionalInfo;
+    }
+
+    public void setAdditionalInfo(String additionalInfo) {
+        this.additionalInfo = additionalInfo;
     }
 
 }
