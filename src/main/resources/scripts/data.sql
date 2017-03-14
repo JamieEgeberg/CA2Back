@@ -1,1 +1,2 @@
+INSERT INTO CITYINFO (ZIP, CITY) VALUES ('0555', 'Scanning');
 
