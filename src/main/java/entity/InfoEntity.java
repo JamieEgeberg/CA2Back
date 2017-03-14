@@ -14,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -31,13 +32,14 @@ public class InfoEntity implements Serializable {
     private Long id;
 
     private String email;
-   
+
     @ManyToOne
     private Address address;
-    
+
     @OneToMany
+    @JoinColumn(name = "IE_ID")
     List<Phone> phones = new ArrayList<>();
-    
+
     public InfoEntity() {
     }
 
@@ -52,7 +54,7 @@ public class InfoEntity implements Serializable {
     public void setEmail(String email) {
         this.email = email;
     }
-    
+
     public Long getId() {
         return id;
     }
