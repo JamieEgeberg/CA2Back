@@ -15,21 +15,40 @@ public class PersonFacade implements IPersonFacade {
     private EntityManagerFactory emf = Persistence
             .createEntityManagerFactory("PU");
 
+    /**
+     * Add an Entity Manager Factory which will be used for
+     * when generating Entity Managers for the other methods
+     * @param emf
+     */
     @Override
     public void addEntityManagerFactory(EntityManagerFactory emf) {
         this.emf = emf;
     }
 
+    /**
+     * Get a single Person by it's Identity id
+     * @param id Identity id
+     * @return single Person by id
+     */
     @Override
     public Person getPerson(int id) {
         return getPerson((long) id);
     }
 
+    /**
+     * Get a single Person by it's Identity id
+     * @param id Identity id
+     * @return single Person by id
+     */
     @Override
     public Person getPerson(long id) {
         return find(id);
     }
 
+    /**
+     * Get all persons
+     * @return all persons
+     */
     @Override
     public List<Person> getPersons() {
         EntityManager em = emf.createEntityManager();
@@ -38,6 +57,11 @@ public class PersonFacade implements IPersonFacade {
         return query.getResultList();
     }
 
+    /**
+     * Get all persons in given zip code
+     * @param zipCode zip code
+     * @return all persons with given zip code
+     */
     @Override
     public List<Person> getPersons(String zipCode) {
         EntityManager em = emf.createEntityManager();
@@ -50,6 +74,11 @@ public class PersonFacade implements IPersonFacade {
         return query.getResultList();
     }
 
+    /**
+     * Add person to database and return it
+     * @param p person
+     * @return person added
+     */
     @Override
     public Person addPerson(Person p) {
         EntityManager em = emf.createEntityManager();
@@ -65,6 +94,11 @@ public class PersonFacade implements IPersonFacade {
         return p;
     }
 
+    /**
+     * Delete person from database with given Id
+     * @param id Identity Id
+     * @return Person deleted
+     */
     @Override
     public Person deletePerson(long id) {
         EntityManager em = emf.createEntityManager();
@@ -82,6 +116,11 @@ public class PersonFacade implements IPersonFacade {
         return toBeRemoved;
     }
 
+    /**
+     * Update a person in the database
+     * @param p person
+     * @return person updated
+     */
     @Override
     public Person editPerson(Person p) {
         EntityManager em = emf.createEntityManager();
@@ -95,6 +134,11 @@ public class PersonFacade implements IPersonFacade {
         return p;
     }
 
+    /**
+     * Find Person by Id
+     * @param id Identity Id
+     * @return Person with given Id
+     */
     Person find(Long id) {
         EntityManager em = emf.createEntityManager();
         return em.find(Person.class, id);
