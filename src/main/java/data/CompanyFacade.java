@@ -6,13 +6,10 @@
 package data;
 
 import entity.Company;
+import util.Utility;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
 import java.util.List;
-import javax.persistence.PersistenceException;
 
 /**
  *
@@ -117,29 +114,13 @@ public class CompanyFacade implements ICompanyFacade {
 
     @Override
     public Company addCompany(Company c) {
-        EntityManager em = emf.createEntityManager();
-        try {
-            em.getTransaction().begin();
-            em.persist(c);
-            em.getTransaction().commit();
-        } catch (PersistenceException ignored) {
-            em.getTransaction().rollback();
-        } finally {
-            em.close();
-        }
+        Utility.persist(emf, c);
         return c;
     }
 
     @Override
     public Company editCompany(Company c) {
-        EntityManager em = emf.createEntityManager();
-        try {
-            em.getTransaction().begin();
-            em.merge(c);
-            em.getTransaction().commit();
-        } catch (PersistenceException e) {
-            em.getTransaction().rollback();
-        }
+        Utility.merge(emf, c);
         return c;
     }
 
