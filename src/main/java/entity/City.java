@@ -25,7 +25,15 @@ public class City implements Serializable {
 
     private String zipCode;
     private String name;
-    
+
+    public City() {
+    }
+
+    public City(String zipCode, String name) {
+        this.zipCode = zipCode;
+        this.name = name;
+    }
+
     public Long getId() {
         return id;
     }
@@ -34,5 +42,20 @@ public class City implements Serializable {
         this.id = id;
     }
 
-    
+    public String getZipCode() {
+        return zipCode;
+    }
+
+    public void setZipCode(String zipCode) {
+        this.zipCode = zipCode;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
 }

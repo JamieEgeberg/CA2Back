@@ -29,6 +29,9 @@ public class Address implements Serializable {
     @ManyToOne
     private City city;
 
+    public Address() {
+    }
+
     public Address(String street, String additionalInfo) {
         this.street = street;
         this.additionalInfo = additionalInfo;
