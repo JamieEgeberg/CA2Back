@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="CA2Back:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="CA2Back-1.war">
+      <element id="artifact" artifact-name="CA2Back:war exploded" />
+    </root>
+  </artifact>
+</component>
