@@ -26,4 +26,8 @@ public interface ICompanyFacade {
 
     List<Company> getCompanies(int employees);
 
+    Company addCompany(Company company);
+    Company editCompany(Company company);
+    Company deleteCompany(int id);
+
 }

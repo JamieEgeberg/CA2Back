@@ -12,6 +12,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 import java.util.List;
+import javax.persistence.PersistenceException;
 
 /**
  *
@@ -23,8 +24,9 @@ public class CompanyFacade implements ICompanyFacade {
             .createEntityManagerFactory("PU");
 
     /**
-     * Add an Entity Manager Factory which will be used for
-     * when generating Entity Managers for the other methods
+     * Add an Entity Manager Factory which will be used for when generating
+     * Entity Managers for the other methods
+     *
      * @param emf
      */
     @Override
@@ -34,6 +36,7 @@ public class CompanyFacade implements ICompanyFacade {
 
     /**
      * Get a single company by it's Identity id
+     *
      * @param id Identity id
      * @return single company by id
      */
@@ -44,6 +47,7 @@ public class CompanyFacade implements ICompanyFacade {
 
     /**
      * Get a single company by it's Identity id
+     *
      * @param id Identity id
      * @return single company by id
      */
@@ -53,9 +57,9 @@ public class CompanyFacade implements ICompanyFacade {
         return em.find(Company.class, id);
     }
 
-
     /**
      * Get a single company by it's CVR number
+     *
      * @param cvr CVR number
      * @return single company by CVR number
      */
@@ -70,6 +74,7 @@ public class CompanyFacade implements ICompanyFacade {
 
     /**
      * Get all companies
+     *
      * @return all companies
      */
     @Override
@@ -82,6 +87,7 @@ public class CompanyFacade implements ICompanyFacade {
 
     /**
      * Get all companies with given zip code
+     *
      * @param zipCode zip code
      * @return all companies located in given zip code
      */
@@ -96,6 +102,7 @@ public class CompanyFacade implements ICompanyFacade {
 
     /**
      * Get all companies with more employees than the number given
+     *
      * @param employees employee count
      * @return all companies with more employees than given number
      */
@@ -106,6 +113,51 @@ public class CompanyFacade implements ICompanyFacade {
                 "SELECT c FROM Company c WHERE c.noOfEmployees > :employees", Company.class);
         query.setParameter("employees", employees);
         return query.getResultList();
+    }
+
+    @Override
+    public Company addCompany(Company c) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            em.getTransaction().begin();
+            em.persist(c);
+            em.getTransaction().commit();
+        } catch (PersistenceException ignored) {
+            em.getTransaction().rollback();
+        } finally {
+            em.close();
+        }
+        return c;
+    }
+
+    @Override
+    public Company editCompany(Company c) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            em.getTransaction().begin();
+            em.merge(c);
+            em.getTransaction().commit();
+        } catch (PersistenceException e) {
+            em.getTransaction().rollback();
+        }
+        return c;
+    }
+
+    @Override
+    public Company deleteCompany(int id) {
+        EntityManager em = emf.createEntityManager();
+        Company toBeRemoved = null;
+        try {
+            em.getTransaction().begin();
+            toBeRemoved = em.merge(em.find(Company.class, id));
+            em.remove(toBeRemoved);
+            em.getTransaction().commit();
+        } catch (PersistenceException e) {
+            em.getTransaction().rollback();
+        } finally {
+            em.close();
+        }
+        return toBeRemoved;
     }
 
 }
