@@ -17,8 +17,7 @@ import java.util.List;
  */
 public class CompanyFacade implements ICompanyFacade {
 
-    private EntityManagerFactory emf = Persistence
-            .createEntityManagerFactory("PU");
+    EntityManagerFactory emf = null;
 
     /**
      * Add an Entity Manager Factory which will be used for when generating
@@ -66,7 +65,7 @@ public class CompanyFacade implements ICompanyFacade {
         TypedQuery<Company> query = em.createQuery(
                 "SELECT c FROM Company c WHERE c.cvr = :cvr", Company.class);
         query.setParameter("cvr", cvr);
-        return query.getSingleResult();
+        return query.getResultList().get(0);
     }
 
     /**

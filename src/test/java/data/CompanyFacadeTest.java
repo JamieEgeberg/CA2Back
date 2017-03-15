@@ -8,11 +8,13 @@ package data;
 import entity.Company;
 import java.util.List;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import util.Util;
 import static org.junit.Assert.*;
 
 /**
@@ -20,22 +22,29 @@ import static org.junit.Assert.*;
  * @author Jamie
  */
 public class CompanyFacadeTest {
-    
+
+    EntityManagerFactory emf;
+    CompanyFacade instance;
+
     public CompanyFacadeTest() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
+        Persistence.generateSchema("testPU", null);
+        emf = Persistence.createEntityManagerFactory("testPU");
+        instance = new CompanyFacade();
+        Util.databaseInit(emf);
     }
-    
+
     @After
     public void tearDown() {
     }
@@ -46,26 +55,9 @@ public class CompanyFacadeTest {
     @Test
     public void testAddEntityManagerFactory() {
         System.out.println("addEntityManagerFactory");
-        EntityManagerFactory emf = null;
-        CompanyFacade instance = new CompanyFacade();
+        assertEquals(instance.emf, null);
         instance.addEntityManagerFactory(emf);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getCompany method, of class CompanyFacade.
-     */
-    @Test
-    public void testGetCompany_int() {
-        System.out.println("getCompany");
-        int id = 0;
-        CompanyFacade instance = new CompanyFacade();
-        Company expResult = null;
-        Company result = instance.getCompany(id);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(instance.emf, emf);
     }
 
     /**
@@ -73,14 +65,11 @@ public class CompanyFacadeTest {
      */
     @Test
     public void testGetCompany_long() {
-        System.out.println("getCompany");
-        long id = 0L;
-        CompanyFacade instance = new CompanyFacade();
-        Company expResult = null;
+        System.out.println("getCompany");        
+        instance.addEntityManagerFactory(emf);
+        long id = 6L;
         Company result = instance.getCompany(id);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assert(id==result.getId());
     }
 
     /**
@@ -89,13 +78,10 @@ public class CompanyFacadeTest {
     @Test
     public void testGetCompany_String() {
         System.out.println("getCompany");
-        String cvr = "";
-        CompanyFacade instance = new CompanyFacade();
-        Company expResult = null;
+        instance.addEntityManagerFactory(emf);
+        String cvr = "36363636";
         Company result = instance.getCompany(cvr);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(cvr, result.getCvr());
     }
 
     /**
@@ -104,12 +90,9 @@ public class CompanyFacadeTest {
     @Test
     public void testGetCompanies_0args() {
         System.out.println("getCompanies");
-        CompanyFacade instance = new CompanyFacade();
-        List<Company> expResult = null;
+        instance.addEntityManagerFactory(emf);
         List<Company> result = instance.getCompanies();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(3, result.size());
     }
 
     /**
@@ -118,8 +101,8 @@ public class CompanyFacadeTest {
     @Test
     public void testGetCompanies_String() {
         System.out.println("getCompanies");
+        instance.addEntityManagerFactory(emf);
         String zipCode = "";
-        CompanyFacade instance = new CompanyFacade();
         List<Company> expResult = null;
         List<Company> result = instance.getCompanies(zipCode);
         assertEquals(expResult, result);
@@ -133,8 +116,8 @@ public class CompanyFacadeTest {
     @Test
     public void testGetCompanies_int() {
         System.out.println("getCompanies");
+        instance.addEntityManagerFactory(emf);
         int employees = 0;
-        CompanyFacade instance = new CompanyFacade();
         List<Company> expResult = null;
         List<Company> result = instance.getCompanies(employees);
         assertEquals(expResult, result);
@@ -148,8 +131,8 @@ public class CompanyFacadeTest {
     @Test
     public void testAddCompany() {
         System.out.println("addCompany");
+        instance.addEntityManagerFactory(emf);
         Company c = null;
-        CompanyFacade instance = new CompanyFacade();
         Company expResult = null;
         Company result = instance.addCompany(c);
         assertEquals(expResult, result);
@@ -163,8 +146,8 @@ public class CompanyFacadeTest {
     @Test
     public void testEditCompany() {
         System.out.println("editCompany");
+        instance.addEntityManagerFactory(emf);
         Company c = null;
-        CompanyFacade instance = new CompanyFacade();
         Company expResult = null;
         Company result = instance.editCompany(c);
         assertEquals(expResult, result);
@@ -178,13 +161,13 @@ public class CompanyFacadeTest {
     @Test
     public void testDeleteCompany() {
         System.out.println("deleteCompany");
+        instance.addEntityManagerFactory(emf);
         int id = 0;
-        CompanyFacade instance = new CompanyFacade();
         Company expResult = null;
         Company result = instance.deleteCompany(id);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
-    
+
 }
