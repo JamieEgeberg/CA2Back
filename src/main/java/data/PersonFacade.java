@@ -1,6 +1,7 @@
 package data;
 
 import entity.Person;
+import util.Utility;
 
 import javax.persistence.*;
 import java.util.List;
@@ -81,16 +82,7 @@ public class PersonFacade implements IPersonFacade {
      */
     @Override
     public Person addPerson(Person p) {
-        EntityManager em = emf.createEntityManager();
-        try {
-            em.getTransaction().begin();
-            em.persist(p);
-            em.getTransaction().commit();
-        } catch (PersistenceException ignored) {
-            em.getTransaction().rollback();
-        } finally {
-            em.close();
-        }
+        Utility.persist(emf, p);
         return p;
     }
 
@@ -123,14 +115,7 @@ public class PersonFacade implements IPersonFacade {
      */
     @Override
     public Person editPerson(Person p) {
-        EntityManager em = emf.createEntityManager();
-        try {
-            em.getTransaction().begin();
-            em.merge(p);
-            em.getTransaction().commit();
-        } catch (PersistenceException e) {
-            em.getTransaction().rollback();
-        }
+        Utility.merge(emf, p);
         return p;
     }
 

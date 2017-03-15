@@ -66,7 +66,7 @@ public class PersonResource {
     /**
      * TODO: make it not return hobbies
      *
-     * @param id
+     * @param id Identity Id
      * @return single person
      */
     @GET
