@@ -9,6 +9,9 @@ import com.google.gson.Gson;
 import data.CompanyFacade;
 import data.ICompanyFacade;
 import entity.Company;
+import exception.NotFoundException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.Persistence;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
@@ -54,14 +57,29 @@ public class CompanyResource {
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public String getCompanyById(@PathParam("id") int id) {
-        return gson.toJson(facade.getCompany(id));
+        Company c =facade.getCompany(id);
+        if(c==null){
+                throw new NotFoundException("Company with id: "+id+" not found.");            
+        }
+        return gson.toJson(c);
     }
 
+    @GET
+    @Path("contactinfo/")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getCompaniesContactInfo() {
+        return gson.toJson(facade.getCompanies());
+    }
+    
     @GET
     @Path("contactinfo/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public String getCompanyContactInfoById(@PathParam("id") int id) {
-        return gson.toJson(facade.getCompany(id));
+        Company c =facade.getCompany(id);
+        if(c==null){
+                throw new NotFoundException("Company with id: "+id+" not found.");            
+        }
+        return gson.toJson(c);
     }
 
     @POST
