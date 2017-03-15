@@ -5,6 +5,10 @@
  */
 package rest;
 
+import data.CityFacade;
+import data.ICityFacade;
+
+import javax.persistence.Persistence;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
@@ -22,6 +26,8 @@ import javax.ws.rs.core.MediaType;
 @Path("city")
 public class CityResource {
 
+    private ICityFacade facade = new CityFacade();
+
     @Context
     private UriInfo context;
 
@@ -29,6 +35,8 @@ public class CityResource {
      * Creates a new instance of CityResource
      */
     public CityResource() {
+        facade.addEntityManagerFactory(
+                Persistence.createEntityManagerFactory("PU"));
     }
 
     /**

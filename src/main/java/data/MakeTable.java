@@ -9,11 +9,12 @@ import entity.Address;
 import entity.Company;
 import entity.Hobby;
 import entity.Person;
-import java.util.ArrayList;
-import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -27,6 +28,7 @@ public class MakeTable {
         EntityManager em = emf.createEntityManager();
 
         CityFacade cf = new CityFacade();
+        cf.addEntityManagerFactory(emf);
         
         List<Person> persons = new ArrayList<>();
         persons.add(new Person("Arne", "Arnested", "AA@mail.dk"));
@@ -72,7 +74,7 @@ public class MakeTable {
         em.getTransaction().begin();
         hobbies.forEach((h) -> em.persist(h));
         em.getTransaction().commit();
-        
+        em.close();
         
 
     }

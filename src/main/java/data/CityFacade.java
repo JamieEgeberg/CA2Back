@@ -4,7 +4,6 @@ import entity.City;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
@@ -15,8 +14,7 @@ import java.util.List;
  */
 public class CityFacade implements ICityFacade {
 
-    private EntityManagerFactory emf = Persistence
-            .createEntityManagerFactory("PU");
+    private EntityManagerFactory emf = null;
 
     /**
      * Add an Entity Manager Factory which will be used for
@@ -60,7 +58,9 @@ public class CityFacade implements ICityFacade {
                                                         " c.zipCode = :zipCode",
                                                 City.class);
         query.setParameter("zipCode", zipCode);
-        return query.getSingleResult();
+        List<City> list = query.getResultList();
+        if(list.size() > 0) return list.get(0);
+        return null;
     }
 
     /**
