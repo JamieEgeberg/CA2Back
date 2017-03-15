@@ -80,8 +80,9 @@ public class PersonFacadeTest {
         System.out.println("getPersons");
         instance.addEntityManagerFactory(emf);
         List<Person> result = instance.getPersons();
+        assertTrue(result.size() > 0);
         result.forEach((res)
-                -> assertTrue(res instanceof Person));
+                -> assertTrue(res != null));
     }
 
     /**
