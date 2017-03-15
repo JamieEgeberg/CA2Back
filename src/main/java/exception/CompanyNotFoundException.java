@@ -9,13 +9,13 @@ package exception;
  *
  * @author Jamie
  */
-public class NotFoundException extends Exception {
+public class CompanyNotFoundException extends Exception {
 
     /**
      * Creates a new instance of <code>PersonNotFoundException</code> without
      * detail message.
      */
-    public NotFoundException() {
+    public CompanyNotFoundException() {
     }
 
     /**
@@ -24,7 +24,7 @@ public class NotFoundException extends Exception {
      *
      * @param msg the detail message.
      */
-    public NotFoundException(String msg) {
+    public CompanyNotFoundException(String msg) {
         super(msg);
     }
 }

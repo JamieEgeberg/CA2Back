@@ -13,18 +13,19 @@ import javax.ws.rs.ext.Provider;
  * @author Jamie
  */
 @Provider
-public class NotFoundMapper implements ExceptionMapper<NotFoundException> {
-    static Gson gson = new GsonBuilder().setPrettyPrinting().create();
-    @Context 
+public class CompanyNotFoundMapper implements ExceptionMapper<CompanyNotFoundException> {
+
+    static Gson gson = new Gson();
+    @Context
     ServletContext context;
-    
+
     @Override
-    public Response toResponse(NotFoundException ex) {
+    public Response toResponse(CompanyNotFoundException ex) {
         return Response.status(404).entity(ex.getMessage()).build();
     }
-    
-        //@Override
-//    public Response toResponse(NotFoundException ex) {
+
+    //@Override
+//    public Response toResponse(CompanyNotFoundException ex) {
 //       boolean isDebug = context.getInitParameter("debug").equals("true");
 //       ErrorMessage err = new ErrorMessage(ex,404,isDebug);
 //       err.setDescription("You tried to call ...");
