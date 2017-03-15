@@ -92,8 +92,9 @@ public class CompanyFacadeTest {
         System.out.println("getCompanies");
         instance.addEntityManagerFactory(emf);
         List<Company> result = instance.getCompanies();
+        assertTrue(result.size() > 0);
         result.forEach((res)
-                -> assertTrue(res instanceof Company));
+                -> assertTrue(res != null));
     }
 
     /**
