@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class CityFacade implements ICityFacade {
 
-    private EntityManagerFactory emf = null;
+    EntityManagerFactory emf = null;
 
     /**
      * Add an Entity Manager Factory which will be used for
