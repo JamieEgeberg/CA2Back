@@ -131,6 +131,7 @@ public class CompanyFacadeTest {
         instance.addEntityManagerFactory(emf);
         Company c = new Company("Test Co", "Testes", "00000000", 10, 10000, "test@test.dk");
         Company result = instance.addCompany(c);
+        assertEquals(c.getId(), result.getId());
         assertEquals(c.getName(), result.getName());
         assertEquals(c.getCvr(), result.getCvr());
     }
@@ -147,6 +148,7 @@ public class CompanyFacadeTest {
         c.setCvr("99999999");
         Company result = instance.editCompany(c);
 
+        assertEquals(c.getId(), result.getId());
         assertEquals(c.getName(), result.getName());
         assertEquals(c.getCvr(), result.getCvr());
     }
@@ -162,6 +164,7 @@ public class CompanyFacadeTest {
         Company expResult = instance.getCompany("00000000");
         long id = expResult.getId();
         Company result = instance.deleteCompany(id);
+        assertEquals(expResult.getId(), result.getId());
         assertEquals(expResult.getName(), result.getName());
         assertEquals(expResult.getCvr(), result.getCvr());
     }

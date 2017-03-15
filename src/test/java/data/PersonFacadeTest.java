@@ -106,6 +106,7 @@ public class PersonFacadeTest {
         instance.addEntityManagerFactory(emf);
         Person p = new Person("Test", "Testsen", "test@test.dk");
         Person result = instance.addPerson(p);
+        assertEquals(p.getId(), result.getId());
         assertEquals(p.getFirstName(), result.getFirstName());
         assertEquals(p.getLastName(), result.getLastName());
     }
@@ -120,6 +121,7 @@ public class PersonFacadeTest {
         Person expResult = instance.addPerson(new Person("Test", "Testsen", "test@test.dk"));
         long id = expResult.getId();
         Person result = instance.deletePerson(id);
+        assertEquals(expResult.getId(), result.getId());
         assertEquals(expResult.getFirstName(), result.getFirstName());
         assertEquals(expResult.getLastName(), result.getLastName());
     }
@@ -132,8 +134,9 @@ public class PersonFacadeTest {
         System.out.println("editPerson");
         instance.addEntityManagerFactory(emf);
         Person p = instance.addPerson(new Person("Test", "Testsen", "test@test.dk"));
-        p.setFirstName("99999999");
+        p.setFirstName("TestNavn");
         Person result = instance.editPerson(p);
+        assertEquals(p.getId(), result.getId());
         assertEquals(p.getFirstName(), result.getFirstName());
         assertEquals(p.getLastName(), result.getLastName());
     }
