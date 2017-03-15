@@ -13,12 +13,12 @@ import java.util.List;
  */
 public class PersonFacade implements IPersonFacade {
 
-    EntityManagerFactory emf = null;
+    private EntityManagerFactory emf = Persistence
+            .createEntityManagerFactory("PU");
 
     /**
-     * Add an Entity Manager Factory which will be used for when generating
-     * Entity Managers for the other methods
-     *
+     * Add an Entity Manager Factory which will be used for
+     * when generating Entity Managers for the other methods
      * @param emf
      */
     @Override
@@ -28,7 +28,6 @@ public class PersonFacade implements IPersonFacade {
 
     /**
      * Get a single Person by it's Identity id
-     *
      * @param id Identity id
      * @return single Person by id
      */
@@ -39,7 +38,6 @@ public class PersonFacade implements IPersonFacade {
 
     /**
      * Get a single Person by it's Identity id
-     *
      * @param id Identity id
      * @return single Person by id
      */
@@ -50,38 +48,35 @@ public class PersonFacade implements IPersonFacade {
 
     /**
      * Get all persons
-     *
      * @return all persons
      */
     @Override
     public List<Person> getPersons() {
         EntityManager em = emf.createEntityManager();
         TypedQuery<Person> query = em.createQuery("SELECT p FROM Person p",
-                Person.class);
+                                                  Person.class);
         return query.getResultList();
     }
 
     /**
      * Get all persons in given zip code
-     *
      * @param zipCode zip code
      * @return all persons with given zip code
      */
     @Override
     public List<Person> getPersons(String zipCode) {
         EntityManager em = emf.createEntityManager();
-        TypedQuery<Person> query = em.createQuery("SELECT p FROM Person p "
-                + "WHERE p.address"
-                + ".city.zipCode = "
-                + ":zipCode",
-                Person.class);
+        TypedQuery<Person> query = em.createQuery("SELECT p FROM Person p " +
+                                                          "WHERE p.address" +
+                                                          ".city.zipCode = " +
+                                                          ":zipCode",
+                                                  Person.class);
         query.setParameter("zipCode", zipCode);
         return query.getResultList();
     }
 
     /**
      * Add person to database and return it
-     *
      * @param p person
      * @return person added
      */
@@ -93,7 +88,6 @@ public class PersonFacade implements IPersonFacade {
 
     /**
      * Delete person from database with given Id
-     *
      * @param id Identity Id
      * @return Person deleted
      */
@@ -116,7 +110,6 @@ public class PersonFacade implements IPersonFacade {
 
     /**
      * Update a person in the database
-     *
      * @param p person
      * @return person updated
      */
@@ -128,7 +121,6 @@ public class PersonFacade implements IPersonFacade {
 
     /**
      * Find Person by Id
-     *
      * @param id Identity Id
      * @return Person with given Id
      */
