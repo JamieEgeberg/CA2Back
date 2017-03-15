@@ -69,7 +69,7 @@ public class CompanyFacadeTest {
         instance.addEntityManagerFactory(emf);
         long id = 6L;
         Company result = instance.getCompany(id);
-        assert (id == result.getId());
+        assertTrue(id == result.getId());
     }
 
     /**
@@ -160,7 +160,7 @@ public class CompanyFacadeTest {
         instance.addEntityManagerFactory(emf);
         instance.addCompany(new Company("Test Co", "Testes", "00000000", 10, 10000, "test@test.dk"));
         Company expResult = instance.getCompany("00000000");
-        long id =  expResult.getId();
+        long id = expResult.getId();
         Company result = instance.deleteCompany(id);
         assertEquals(expResult.getName(), result.getName());
         assertEquals(expResult.getCvr(), result.getCvr());

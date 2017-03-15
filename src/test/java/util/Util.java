@@ -25,36 +25,56 @@ public class Util {
 
     public static void databaseInit(EntityManagerFactory emf) {
         EntityManager em = emf.createEntityManager();
-        
+
         PersonFacade pf = new PersonFacade();
         CityFacade cf = new CityFacade();
         CompanyFacade comf = new CompanyFacade();
 
         List<Person> persons = new ArrayList<>();
-        persons.add(new Person("Arne", "Arnested", "AA@mail.dk"));
-        persons.add(new Person("Berit", "Brandt", "BB@mail.dk"));
-        persons.add(new Person("Carl", "Conrad", "CC@mail.dk"));
-        persons.add(new Person("Doris", "Dram", "DD@mail.dk"));
-        persons.add(new Person("Einar", "Eriksen", "EE@mail.dk"));
+        Address a1 = new Address("Avej 1", "1. th");
+        Person p1 = new Person("Arne", "Arnested", "AA@mail.dk");
+        a1.setCity(cf.getCity("1000"));
+        p1.setAddress(a1);
+        persons.add(p1);
+        Address a2 = new Address("Bvej 2", "2. th");
+        Person p2 = new Person("Berit", "Brandt", "BB@mail.dk");
+        a2.setCity(cf.getCity("2000"));
+        p2.setAddress(a2);
+        persons.add(p2);
+        Address a3 = new Address("Cvej 3", "3. th");
+        Person p3 = new Person("Carl", "Conrad", "CC@mail.dk");
+        a3.setCity(cf.getCity("3000"));
+        p3.setAddress(a3);
+        persons.add(p3);
+        Address a4 = new Address("Dvej 4", "4. th");
+        Person p4 = new Person("Doris", "Dram", "DD@mail.dk");
+        a4.setCity(cf.getCity("4000"));
+        p4.setAddress(a4);
+        persons.add(p4);
+        Address a5 = new Address("Evej 5", "5. th");
+        Person p5 = new Person("Einar", "Eriksen", "EE@mail.dk");
+        a5.setCity(cf.getCity("5000"));
+        p5.setAddress(a5);
+        persons.add(p5);
 
         em.getTransaction().begin();
         persons.forEach((p) -> em.persist(p));
         em.getTransaction().commit();
 
         List<Company> companies = new ArrayList<>();
-        Address a1 = new Address("Hansensvej 42", "st th");
+        a1 = new Address("Hansensvej 42", "st th");
         Company c1 = new Company("Hansen A/S", "Lejligheder ud over det hele", "36363636", 42, 42000000, "info@hansen.dk");
         a1.setCity(cf.getCity("4200"));
         c1.setAddress(a1);
         companies.add(c1);
 
-        Address a2 = new Address("Blomstervænget 22", "");
+        a2 = new Address("Blomstervænget 22", "");
         Company c2 = new Company("Stuen Klokkeblomst", "Børnestue for blomsterbørn", "25252525", 22, 2200000, "stuen@klokkeblomst.dk");
         a2.setCity(cf.getCity("2200"));
         c2.setAddress(a2);
         companies.add(c2);
 
-        Address a3 = new Address("Hovedvejen 22", "");
+        a3 = new Address("Hovedvejen 22", "");
         Company c3 = new Company("Einar's Auto", "Biler repareres her!", "14141414", 36, 3600000, "einar@auto.dk");
         a3.setCity(cf.getCity("3600"));
         c3.setAddress(a3);

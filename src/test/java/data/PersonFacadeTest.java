@@ -5,7 +5,6 @@
  */
 package data;
 
-import entity.Company;
 import entity.Person;
 import java.util.List;
 import javax.persistence.EntityManagerFactory;
@@ -70,7 +69,7 @@ public class PersonFacadeTest {
         instance.addEntityManagerFactory(emf);
         long id = 1L;
         Person result = instance.getPerson(id);
-        assert (id == result.getId());
+        assertTrue(id == result.getId());
     }
 
     /**
@@ -91,13 +90,11 @@ public class PersonFacadeTest {
     @Test
     public void testGetPersons_String() {
         System.out.println("getPersons");
-        String zipCode = "";
-        PersonFacade instance = new PersonFacade();
-        List<Person> expResult = null;
+        instance.addEntityManagerFactory(emf);
+        String zipCode = "3600";
         List<Person> result = instance.getPersons(zipCode);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        result.forEach((res)
+                -> assertEquals(zipCode, res.getAddress().getCity().getZipCode()));
     }
 
     /**
@@ -106,13 +103,11 @@ public class PersonFacadeTest {
     @Test
     public void testAddPerson() {
         System.out.println("addPerson");
-        Person p = null;
-        PersonFacade instance = new PersonFacade();
-        Person expResult = null;
+        instance.addEntityManagerFactory(emf);
+        Person p = new Person("Test", "Testsen", "test@test.dk");
         Person result = instance.addPerson(p);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(p.getFirstName(), result.getFirstName());
+        assertEquals(p.getLastName(), result.getLastName());
     }
 
     /**
@@ -121,13 +116,12 @@ public class PersonFacadeTest {
     @Test
     public void testDeletePerson() {
         System.out.println("deletePerson");
-        long id = 0L;
-        PersonFacade instance = new PersonFacade();
-        Person expResult = null;
+        instance.addEntityManagerFactory(emf);
+        Person expResult = instance.addPerson(new Person("Test", "Testsen", "test@test.dk"));
+        long id = expResult.getId();
         Person result = instance.deletePerson(id);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(expResult.getFirstName(), result.getFirstName());
+        assertEquals(expResult.getLastName(), result.getLastName());
     }
 
     /**
@@ -136,28 +130,12 @@ public class PersonFacadeTest {
     @Test
     public void testEditPerson() {
         System.out.println("editPerson");
-        Person p = null;
-        PersonFacade instance = new PersonFacade();
-        Person expResult = null;
+        instance.addEntityManagerFactory(emf);
+        Person p = instance.addPerson(new Person("Test", "Testsen", "test@test.dk"));
+        p.setFirstName("99999999");
         Person result = instance.editPerson(p);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of find method, of class PersonFacade.
-     */
-    @Test
-    public void testFind() {
-        System.out.println("find");
-        Long id = null;
-        PersonFacade instance = new PersonFacade();
-        Person expResult = null;
-        Person result = instance.find(id);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(p.getFirstName(), result.getFirstName());
+        assertEquals(p.getLastName(), result.getLastName());
     }
 
 }
