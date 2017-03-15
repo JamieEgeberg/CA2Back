@@ -12,10 +12,11 @@ import entity.Address;
 import entity.Company;
 import entity.Hobby;
 import entity.Person;
-import java.util.ArrayList;
-import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -25,10 +26,13 @@ public class Util {
 
     public static void databaseInit(EntityManagerFactory emf) {
         EntityManager em = emf.createEntityManager();
-        
+
         PersonFacade pf = new PersonFacade();
+        pf.addEntityManagerFactory(emf);
         CityFacade cf = new CityFacade();
+        cf.addEntityManagerFactory(emf);
         CompanyFacade comf = new CompanyFacade();
+        comf.addEntityManagerFactory(emf);
 
         List<Person> persons = new ArrayList<>();
         persons.add(new Person("Arne", "Arnested", "AA@mail.dk"));
@@ -74,6 +78,7 @@ public class Util {
         em.getTransaction().begin();
         hobbies.forEach((h) -> em.persist(h));
         em.getTransaction().commit();
+        em.close();
 
     }
 
