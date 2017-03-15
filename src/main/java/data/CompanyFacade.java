@@ -125,6 +125,10 @@ public class CompanyFacade implements ICompanyFacade {
 
     @Override
     public Company deleteCompany(int id) {
+       return deleteCompany((long) id);
+    }
+    
+    public Company deleteCompany(long id) {
         EntityManager em = emf.createEntityManager();
         Company toBeRemoved = null;
         try {

@@ -65,11 +65,11 @@ public class CompanyFacadeTest {
      */
     @Test
     public void testGetCompany_long() {
-        System.out.println("getCompany");        
+        System.out.println("getCompany");
         instance.addEntityManagerFactory(emf);
         long id = 6L;
         Company result = instance.getCompany(id);
-        assert(id==result.getId());
+        assert (id == result.getId());
     }
 
     /**
@@ -92,7 +92,8 @@ public class CompanyFacadeTest {
         System.out.println("getCompanies");
         instance.addEntityManagerFactory(emf);
         List<Company> result = instance.getCompanies();
-        assertEquals(3, result.size());
+        result.forEach((res)
+                -> assertTrue(res instanceof Company));
     }
 
     /**
@@ -102,12 +103,10 @@ public class CompanyFacadeTest {
     public void testGetCompanies_String() {
         System.out.println("getCompanies");
         instance.addEntityManagerFactory(emf);
-        String zipCode = "";
-        List<Company> expResult = null;
+        String zipCode = "3600";
         List<Company> result = instance.getCompanies(zipCode);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        result.forEach((res)
+                -> assertEquals(zipCode, res.getAddress().getCity().getZipCode()));
     }
 
     /**
@@ -117,12 +116,10 @@ public class CompanyFacadeTest {
     public void testGetCompanies_int() {
         System.out.println("getCompanies");
         instance.addEntityManagerFactory(emf);
-        int employees = 0;
-        List<Company> expResult = null;
+        int employees = 30;
         List<Company> result = instance.getCompanies(employees);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        result.forEach((res)
+                -> assertTrue(employees < res.getNoOfEmployees()));
     }
 
     /**
@@ -132,12 +129,10 @@ public class CompanyFacadeTest {
     public void testAddCompany() {
         System.out.println("addCompany");
         instance.addEntityManagerFactory(emf);
-        Company c = null;
-        Company expResult = null;
+        Company c = new Company("Test Co", "Testes", "00000000", 10, 10000, "test@test.dk");
         Company result = instance.addCompany(c);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(c.getName(), result.getName());
+        assertEquals(c.getCvr(), result.getCvr());
     }
 
     /**
@@ -147,12 +142,13 @@ public class CompanyFacadeTest {
     public void testEditCompany() {
         System.out.println("editCompany");
         instance.addEntityManagerFactory(emf);
-        Company c = null;
-        Company expResult = null;
+        instance.addCompany(new Company("Test Co", "Testes", "00000000", 10, 10000, "test@test.dk"));
+        Company c = instance.getCompany("00000000");
+        c.setCvr("99999999");
         Company result = instance.editCompany(c);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
+        assertEquals(c.getName(), result.getName());
+        assertEquals(c.getCvr(), result.getCvr());
     }
 
     /**
@@ -162,12 +158,12 @@ public class CompanyFacadeTest {
     public void testDeleteCompany() {
         System.out.println("deleteCompany");
         instance.addEntityManagerFactory(emf);
-        int id = 0;
-        Company expResult = null;
+        instance.addCompany(new Company("Test Co", "Testes", "00000000", 10, 10000, "test@test.dk"));
+        Company expResult = instance.getCompany("00000000");
+        long id =  expResult.getId();
         Company result = instance.deleteCompany(id);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(expResult.getName(), result.getName());
+        assertEquals(expResult.getCvr(), result.getCvr());
     }
 
 }
