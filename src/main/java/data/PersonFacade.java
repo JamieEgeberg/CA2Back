@@ -13,8 +13,7 @@ import java.util.List;
  */
 public class PersonFacade implements IPersonFacade {
 
-    private EntityManagerFactory emf = Persistence
-            .createEntityManagerFactory("PU");
+    private EntityManagerFactory emf = null;
 
     /**
      * Add an Entity Manager Factory which will be used for
