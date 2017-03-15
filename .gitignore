@@ -102,3 +102,4 @@ nbdist/
 # End of https://www.gitignore.io/api/maven,java,intellij+iml,netbeans
 
 src/main/resources/META-INF/persistence.xml
+/nbproject/
