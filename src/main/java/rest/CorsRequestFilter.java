@@ -21,7 +21,7 @@ public class CorsRequestFilter implements ContainerRequestFilter {
     public void filter(ContainerRequestContext requestCtx) throws IOException {
         // When HttpMethod comes as OPTIONS, just acknowledge that it accepts...
         if (requestCtx.getRequest().getMethod().equals("OPTIONS")) {
-            log.info("HTTP Method (OPTIONS) - Detected!");
+            //log.info("HTTP Method (OPTIONS) - Detected!");
             // Just send a OK response back to the browser.
             // The response goes through the chain of applicable response filters.
             requestCtx.abortWith(Response.status(Response.Status.OK).build());
