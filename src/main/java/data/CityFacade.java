@@ -1,6 +1,7 @@
 package data;
 
 import entity.City;
+import exception.TheException;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -32,7 +33,7 @@ public class CityFacade implements ICityFacade {
      * @return single city by id
      */
     @Override
-    public City getCity(int id) {
+    public City getCity(int id) throws TheException {
         return getCity(((long) id));
     }
 
@@ -42,7 +43,7 @@ public class CityFacade implements ICityFacade {
      * @return single city by id
      */
     @Override
-    public City getCity(long id) {
+    public City getCity(long id) throws TheException {
         return find(id);
     }
 
@@ -52,7 +53,7 @@ public class CityFacade implements ICityFacade {
      * @return single city by zip code
      */
     @Override
-    public City getCity(String zipCode) {
+    public City getCity(String zipCode) throws TheException {
         EntityManager em = emf.createEntityManager();
         TypedQuery<City> query = em.createQuery("SELECT c FROM City c WHERE" +
                                                         " c.zipCode = :zipCode",
@@ -60,7 +61,7 @@ public class CityFacade implements ICityFacade {
         query.setParameter("zipCode", zipCode);
         List<City> list = query.getResultList();
         if(list.size() > 0) return list.get(0);
-        return null;
+        else throw new TheException("No city with the zipCode: " + zipCode);
     }
 
     /**
@@ -68,7 +69,7 @@ public class CityFacade implements ICityFacade {
      * @return all cities
      */
     @Override
-    public List<City> getCities() {
+    public List<City> getCities() throws TheException {
         EntityManager em = emf.createEntityManager();
         TypedQuery<City> query = em.createQuery("SELECT c FROM City c",
                                                   City.class);
@@ -80,9 +81,13 @@ public class CityFacade implements ICityFacade {
      * @param id Identity Id
      * @return City with given Id
      */
-    City find(Long id) {
+    City find(Long id) throws TheException {
         EntityManager em = emf.createEntityManager();
-        return em.find(City.class, id);
+
+        City c = em.find(City.class, id);
+        if (c == null)
+            throw new TheException("Cannot find Person with id " + id);
+        return c;
     }
 
 }

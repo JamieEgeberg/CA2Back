@@ -60,9 +60,7 @@ public class PersonFacade implements IPersonFacade {
         TypedQuery<Person> query = em.createQuery("SELECT p FROM Person p",
                                                   Person.class);
         List<Person> l = query.getResultList();
-        if (l == null) throw new TheException("getPersons() resulted in null",
-                                              500,
-                                              false);
+        if (l == null) throw new TheException("No persons sexist");
         return l;
     }
 
@@ -82,10 +80,8 @@ public class PersonFacade implements IPersonFacade {
                                                   Person.class);
         query.setParameter("zipCode", zipCode);
         List<Person> l = query.getResultList();
-        if (l == null) throw new TheException("getPersons(String zipCode) " +
-                                                      "resulted in null",
-                                              500,
-                                              false);
+        if (l == null)
+            throw new TheException("No persons in the zipCode:" + zipCode);
         return l;
     }
 
@@ -119,9 +115,8 @@ public class PersonFacade implements IPersonFacade {
         } catch (PersistenceException e) {
             em.getTransaction().rollback();
             throw new TheException(
-                    "deletePerson(Long id) rollback, object: " +
-                            (toBeRemoved != null ? toBeRemoved.toString() :
-                                    null));
+                    "rollback, object: " + (toBeRemoved != null ? toBeRemoved
+                            .toString() : "null"));
         } finally {
             em.close();
         }

@@ -1,6 +1,7 @@
 package data;
 
 import entity.City;
+import exception.TheException;
 
 import javax.persistence.EntityManagerFactory;
 import java.util.List;
@@ -26,7 +27,7 @@ public interface ICityFacade {
      * @param id Identity id
      * @return single city by id
      */
-    City getCity(int id);
+    City getCity(int id) throws TheException;
 
     /**
      * Get a single city by it's Identity id
@@ -34,7 +35,7 @@ public interface ICityFacade {
      * @param id Identity id
      * @return single city by id
      */
-    City getCity(long id);
+    City getCity(long id) throws TheException;
 
     /**
      * Get a single city by it's zip code
@@ -42,13 +43,13 @@ public interface ICityFacade {
      * @param zipCode zip code
      * @return single city by zip code
      */
-    City getCity(String zipCode);
+    City getCity(String zipCode) throws TheException;
 
     /**
      * Get all cities
      *
      * @return all cities
      */
-    List<City> getCities();
+    List<City> getCities() throws TheException;
 
 }
