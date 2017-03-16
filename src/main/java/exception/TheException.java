@@ -17,21 +17,27 @@ public class TheException extends Exception {
      * Constructs an instance of <code>TheException</code> with the specified
      * detail message.
      *
-     * @param msg the detail message.
+     * @param message the detail message.
      */
-    public TheException(String msg) {
-        super(msg);
+    public TheException(String message) {
+        super(message);
     }
 
     private ErrorMessage errorMessage;
 
-    public TheException(ErrorMessage errorMessage) {
-        super(errorMessage.getMessage());
-        this.errorMessage = errorMessage;
+    public TheException(int code, boolean debug) {
+        errorMessage = new ErrorMessage(this, super.getMessage(), code, debug);
+    }
+
+    public TheException(String message, int code, boolean debug) {
+        errorMessage = new ErrorMessage(this, message,  code, debug);
     }
 
     public ErrorMessage getErrorMessage() {
         return errorMessage;
     }
 
+    public void setErrorMessage(ErrorMessage errorMessage) {
+        this.errorMessage = errorMessage;
+    }
 }

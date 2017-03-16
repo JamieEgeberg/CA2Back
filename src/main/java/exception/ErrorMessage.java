@@ -14,9 +14,9 @@ public class ErrorMessage {
     private String message;
     private String stackTrace;
 
-    public ErrorMessage(Throwable ex, int code, boolean debug) {
+    public ErrorMessage(Throwable ex, String message, int code, boolean debug) {
         this.code = code;
-        this.message = ex.getMessage();
+        this.message = message;
 
         if (!debug) return;
         StringWriter sw = new StringWriter();
