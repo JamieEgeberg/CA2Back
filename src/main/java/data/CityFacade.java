@@ -31,6 +31,7 @@ public class CityFacade implements ICityFacade {
      * Get a single city by it's Identity id
      * @param id Identity id
      * @return single city by id
+     * @throws exception.TheException
      */
     @Override
     public City getCity(int id) throws TheException {
@@ -41,6 +42,7 @@ public class CityFacade implements ICityFacade {
      * Get a single city by it's Identity id
      * @param id Identity id
      * @return single city by id
+     * @throws exception.TheException
      */
     @Override
     public City getCity(long id) throws TheException {
@@ -51,6 +53,7 @@ public class CityFacade implements ICityFacade {
      * Get a single city by it's zip code
      * @param zipCode zip code
      * @return single city by zip code
+     * @throws exception.TheException
      */
     @Override
     public City getCity(String zipCode) throws TheException {
@@ -67,6 +70,7 @@ public class CityFacade implements ICityFacade {
     /**
      * Get all cities
      * @return all cities
+     * @throws exception.TheException
      */
     @Override
     public List<City> getCities() throws TheException {

@@ -9,6 +9,7 @@ import javax.persistence.Persistence;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -59,6 +60,7 @@ public class CityFacadeTest {
         } catch (TheException e) {
             fail(e.getMessage());
         }
+        assertNotNull(result);
         assertTrue(id == result.getId());
     }
 
@@ -75,6 +77,7 @@ public class CityFacadeTest {
         } catch (TheException e) {
             fail(e.getMessage());
         }
+        assertNotNull(result);
         assertEquals(zipCode, result.getZipCode());
     }
 
@@ -90,6 +93,7 @@ public class CityFacadeTest {
         } catch (TheException e) {
             fail(e.getMessage());
         }
+        assertNotNull(result);
         assertTrue(result.size() > 0);
         result.forEach((res) -> assertTrue(res != null));
     }

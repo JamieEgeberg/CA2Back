@@ -12,6 +12,7 @@ import entity.Address;
 import entity.Company;
 import entity.Hobby;
 import entity.Person;
+import exception.TheException;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -24,7 +25,7 @@ import java.util.List;
  */
 public class Util {
 
-    public static void databaseInit(EntityManagerFactory emf) {
+    public static void databaseInit(EntityManagerFactory emf) throws TheException {
         EntityManager em = emf.createEntityManager();
 
         PersonFacade pf = new PersonFacade();
