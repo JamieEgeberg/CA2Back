@@ -79,6 +79,13 @@ public class PersonResource {
         return gson.toJson(facade.getPerson(id));
     }
 
+    @GET
+    @Path("zip/{zipCode}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getPersonByZip(@PathParam("zipCode") String zipCode) throws TheException {
+        return gson.toJson(facade.getPersons(zipCode));
+    }
+
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
