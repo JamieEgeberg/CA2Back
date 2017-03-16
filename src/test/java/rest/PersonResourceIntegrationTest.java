@@ -47,22 +47,24 @@ public class PersonResourceIntegrationTest {
 
     @Test
     public void pingTest() throws Exception {
+        System.out.println("pingTest()");
         given().when().get("/person").then().statusCode(200);
     }
 
     @Test
     public void getPersonsTest() throws Exception {
+        System.out.println("getPersonsTest()");
         String json = given()
                 .when().get("/person")
                 .body().asString();
-        System.out.println("JSON: " + json);
+        System.out.println("getPersonsTest() JSON: " + json);
         List<Person> list = getListFromJson(json);
         if (!json.equals("[]")) {
             assertTrue("list should not be null, list is: " + list,
                        list != null);
             assertTrue("list.Size() should be above 0, but is: " + list.size(),
                        list.size() > 0);
-            Person person = list.get(1);
+            Person person = list.get(0);
             assertTrue("person should not be null, person is: " + person,
                        person != null);
         } else {
@@ -73,19 +75,23 @@ public class PersonResourceIntegrationTest {
 
     @Test
     public void postPersonTest() throws Exception {
+        System.out.println("postPersonTest()");
         Person p1 = new Person("FirstName",
                                "LastName",
                                "Clearly@AnEmail.com");
-
+        p1.hobbies = null;
+        p1.phones = null;
         String json = given()
                 .contentType(ContentType.JSON)
                 .body(gson.toJson(p1))
                 .when().post("/person")
                 .body().asString();
-        System.out.println("JSON: " + json);
+        System.out.println("postPersonTest() JSON: " + json);
         Person p2 = gson.fromJson(json, Person.class);
         assertTrue(p2.getId() > 0);
-        assertTrue(p1.equals(p2));
+        assertTrue(p1.getFirstName().equals(p2.getFirstName()));
+        assertTrue(p1.getLastName().equals(p2.getLastName()));
+        assertTrue(p1.getEmail().equals(p2.getEmail()));
     }
 
     /**
