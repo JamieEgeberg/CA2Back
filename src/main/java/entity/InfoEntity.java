@@ -39,7 +39,7 @@ public class InfoEntity implements Serializable {
 
     @OneToMany(cascade = CascadeType.PERSIST)    
     @JoinColumn(name = "IE_ID")
-    List<Phone> phones = new ArrayList<>();
+    public List<Phone> phones = new ArrayList<>();
 
     public InfoEntity() {
     }
