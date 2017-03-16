@@ -22,8 +22,8 @@ public class Utility {
             em.getTransaction().commit();
         } catch (PersistenceException ignored) {
             em.getTransaction().rollback();
-            throw new TheException("Persist failed rollback, object: "
-                                           + o.toString(), 500, false);
+            throw new TheException("Persist failed rollback, object: " + o
+                    .toString());
         } finally {
             em.close();
         }
@@ -38,8 +38,8 @@ public class Utility {
             em.getTransaction().commit();
         } catch (PersistenceException e) {
             em.getTransaction().rollback();
-            throw new TheException("Merge failed rollback, object: "
-                                           + o.toString(), 500, false);
+            throw new TheException("Merge failed rollback, object: " + o
+                    .toString());
         }
     }
 
