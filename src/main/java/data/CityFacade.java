@@ -89,7 +89,7 @@ public class CityFacade implements ICityFacade {
 
         City c = em.find(City.class, id);
         if (c == null)
-            throw new TheException("Cannot find Person with id " + id);
+            throw new TheException("Cannot find City with id " + id);
         return c;
     }
 
