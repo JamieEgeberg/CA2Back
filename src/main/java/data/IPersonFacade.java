@@ -1,6 +1,7 @@
 package data;
 
 import entity.Person;
+import exception.TheException;
 
 import javax.persistence.EntityManagerFactory;
 import java.util.List;
@@ -26,7 +27,7 @@ public interface IPersonFacade {
      * @param id Identity id
      * @return single Person by id
      */
-    Person getPerson(int id);
+    Person getPerson(int id) throws TheException;
 
     /**
      * Get a single Person by it's Identity id
@@ -34,14 +35,14 @@ public interface IPersonFacade {
      * @param id Identity id
      * @return single Person by id
      */
-    Person getPerson(long id);
+    Person getPerson(long id) throws TheException;
 
     /**
      * Get all persons
      *
      * @return all persons
      */
-    List<Person> getPersons();
+    List<Person> getPersons() throws TheException;
 
     /**
      * Get all persons in given zip code
@@ -49,7 +50,7 @@ public interface IPersonFacade {
      * @param zipCode zip code
      * @return all persons with given zip code
      */
-    List<Person> getPersons(String zipCode);
+    List<Person> getPersons(String zipCode) throws TheException;
 
     /**
      * Add person to database and return it
@@ -57,7 +58,7 @@ public interface IPersonFacade {
      * @param p person
      * @return person added
      */
-    Person addPerson(Person p);
+    Person addPerson(Person p) throws TheException;
 
     /**
      * Delete person from database with given Id
@@ -65,7 +66,7 @@ public interface IPersonFacade {
      * @param id Identity Id
      * @return Person deleted
      */
-    Person deletePerson(long id);
+    Person deletePerson(long id) throws TheException;
 
     /**
      * Update a person in the database
@@ -73,6 +74,6 @@ public interface IPersonFacade {
      * @param p person
      * @return person updated
      */
-    Person editPerson(Person p);
+    Person editPerson(Person p) throws TheException;
 
 }

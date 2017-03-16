@@ -1,6 +1,7 @@
 package data;
 
 import entity.Person;
+import exception.TheException;
 import util.Utility;
 
 import javax.persistence.*;
@@ -33,7 +34,7 @@ public class PersonFacade implements IPersonFacade {
      * @return single Person by id
      */
     @Override
-    public Person getPerson(int id) {
+    public Person getPerson(int id) throws TheException {
         return getPerson((long) id);
     }
 
@@ -44,7 +45,7 @@ public class PersonFacade implements IPersonFacade {
      * @return single Person by id
      */
     @Override
-    public Person getPerson(long id) {
+    public Person getPerson(long id) throws TheException {
         return find(id);
     }
 
@@ -54,11 +55,15 @@ public class PersonFacade implements IPersonFacade {
      * @return all persons
      */
     @Override
-    public List<Person> getPersons() {
+    public List<Person> getPersons() throws TheException {
         EntityManager em = emf.createEntityManager();
         TypedQuery<Person> query = em.createQuery("SELECT p FROM Person p",
                 Person.class);
-        return query.getResultList();
+        List<Person> l = query.getResultList();
+        if(l == null) throw new TheException("getPersons() resulted in null",
+                                             500,
+                                             false);
+        return l;
     }
 
     /**
@@ -68,7 +73,7 @@ public class PersonFacade implements IPersonFacade {
      * @return all persons with given zip code
      */
     @Override
-    public List<Person> getPersons(String zipCode) {
+    public List<Person> getPersons(String zipCode) throws TheException {
         EntityManager em = emf.createEntityManager();
         TypedQuery<Person> query = em.createQuery("SELECT p FROM Person p "
                 + "WHERE p.address"
@@ -76,7 +81,12 @@ public class PersonFacade implements IPersonFacade {
                 + ":zipCode",
                 Person.class);
         query.setParameter("zipCode", zipCode);
-        return query.getResultList();
+        List<Person> l = query.getResultList();
+        if(l == null) throw new TheException("getPersons(String zipCode) " +
+                                                     "resulted in null",
+                                             500,
+                                             false);
+        return l;
     }
 
     /**
@@ -86,7 +96,7 @@ public class PersonFacade implements IPersonFacade {
      * @return person added
      */
     @Override
-    public Person addPerson(Person p) {
+    public Person addPerson(Person p) throws TheException {
         Utility.persist(emf, p);
         return p;
     }
@@ -98,7 +108,7 @@ public class PersonFacade implements IPersonFacade {
      * @return Person deleted
      */
     @Override
-    public Person deletePerson(long id) {
+    public Person deletePerson(long id) throws TheException {
         EntityManager em = emf.createEntityManager();
         Person toBeRemoved = null;
         try {
@@ -121,7 +131,7 @@ public class PersonFacade implements IPersonFacade {
      * @return person updated
      */
     @Override
-    public Person editPerson(Person p) {
+    public Person editPerson(Person p) throws TheException {
         Utility.merge(emf, p);
         return p;
     }
@@ -132,9 +142,12 @@ public class PersonFacade implements IPersonFacade {
      * @param id Identity Id
      * @return Person with given Id
      */
-    Person find(Long id) {
+    Person find(Long id) throws TheException {
         EntityManager em = emf.createEntityManager();
-        return em.find(Person.class, id);
+
+        Person p = em.find(Person.class, id);
+        if(p == null) throw new TheException("Cannot find Person with id " + id);
+        return p;
     }
 
 }
