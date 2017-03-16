@@ -41,14 +41,14 @@ public class PersonResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public String getPersons() {
+    public String getPersons() throws TheException {
         return gson.toJson(facade.getPersons());
     }
 
     @GET
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public String getPersonById(@PathParam("id") int id) {
+    public String getPersonById(@PathParam("id") int id) throws TheException {
         return gson.toJson(facade.getPerson(id));
     }
 
@@ -56,11 +56,12 @@ public class PersonResource {
      * TODO: make it not return hobbies
      *
      * @return all persons
+     * @throws exception.TheException
      */
     @GET
     @Path("contactinfo")
     @Produces(MediaType.APPLICATION_JSON)
-    public String getPersonsContactInfo() {
+    public String getPersonsContactInfo() throws TheException {
         return gson.toJson(facade.getPersons());
     }
 
@@ -69,18 +70,19 @@ public class PersonResource {
      *
      * @param id Identity Id
      * @return single person
+     * @throws exception.TheException
      */
     @GET
     @Path("contactinfo/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public String getPersonContactInfoById(@PathParam("id") int id) {
+    public String getPersonContactInfoById(@PathParam("id") int id) throws TheException {
         return gson.toJson(facade.getPerson(id));
     }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public String addPerson(String json) {
+    public String addPerson(String json) throws TheException {
         Person person = gson.fromJson(json, Person.class);
         facade.addPerson(person);
         return gson.toJson(person);
@@ -89,7 +91,7 @@ public class PersonResource {
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public String editPerson(String json) {
+    public String editPerson(String json) throws TheException {
         Person person = gson.fromJson(json, Person.class);
         facade.editPerson(person);
         return gson.toJson(person);
@@ -98,7 +100,7 @@ public class PersonResource {
     @DELETE
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public String deletePerson(@PathParam("id") int id) {
+    public String deletePerson(@PathParam("id") int id) throws TheException {
         facade.deletePerson(id);
         return "{\"message\":\"Deleted person with id: \"" + id + "}";
     }
