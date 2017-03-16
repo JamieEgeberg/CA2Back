@@ -6,7 +6,10 @@
 package data;
 
 import entity.Person;
+import exception.TheException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import org.junit.After;
@@ -38,7 +41,7 @@ public class PersonFacadeTest {
     }
 
     @Before
-    public void setUp() {
+    public void setUp() throws TheException {
         Persistence.generateSchema("testPU", null);
         emf = Persistence.createEntityManagerFactory("testPU");
         instance = new PersonFacade();
@@ -68,7 +71,13 @@ public class PersonFacadeTest {
         System.out.println("getPerson");
         instance.addEntityManagerFactory(emf);
         long id = 1L;
-        Person result = instance.getPerson(id);
+        Person result = null;
+        try {
+            result = instance.getPerson(id);
+        } catch (TheException ex) {
+            fail(ex.getMessage());
+        }
+        assertNotNull(result);
         assertTrue(id == result.getId());
     }
 
@@ -79,7 +88,13 @@ public class PersonFacadeTest {
     public void testGetPersons_0args() {
         System.out.println("getPersons");
         instance.addEntityManagerFactory(emf);
-        List<Person> result = instance.getPersons();
+        List<Person> result = null;
+        try {
+            result = instance.getPersons();
+        } catch (TheException ex) {
+            fail(ex.getMessage());
+        }
+        assertNotNull(result);
         assertTrue(result.size() > 0);
         result.forEach((res)
                 -> assertTrue(res != null));
@@ -93,7 +108,13 @@ public class PersonFacadeTest {
         System.out.println("getPersons");
         instance.addEntityManagerFactory(emf);
         String zipCode = "3600";
-        List<Person> result = instance.getPersons(zipCode);
+        List<Person> result = null;
+        try {
+            result = instance.getPersons(zipCode);
+        } catch (TheException ex) {
+            fail(ex.getMessage());
+        }
+        assertNotNull(result);
         result.forEach((res)
                 -> assertEquals(zipCode, res.getAddress().getCity().getZipCode()));
     }
@@ -106,7 +127,13 @@ public class PersonFacadeTest {
         System.out.println("addPerson");
         instance.addEntityManagerFactory(emf);
         Person p = new Person("Test", "Testsen", "test@test.dk");
-        Person result = instance.addPerson(p);
+        Person result = null;
+        try {
+            result = instance.addPerson(p);
+        } catch (TheException ex) {
+            fail(ex.getMessage());
+        }
+        assertNotNull(result);
         assertEquals(p.getId(), result.getId());
         assertEquals(p.getFirstName(), result.getFirstName());
         assertEquals(p.getLastName(), result.getLastName());
@@ -119,9 +146,16 @@ public class PersonFacadeTest {
     public void testDeletePerson() {
         System.out.println("deletePerson");
         instance.addEntityManagerFactory(emf);
-        Person expResult = instance.addPerson(new Person("Test", "Testsen", "test@test.dk"));
-        long id = expResult.getId();
-        Person result = instance.deletePerson(id);
+        Person expResult = new Person("Test", "Testsen", "test@test.dk");
+        Person result = null;
+        try {
+            instance.addPerson(expResult);
+            long id = expResult.getId();
+            result = instance.deletePerson(id);
+        } catch (TheException ex) {
+            fail(ex.getMessage());
+        }
+        assertNotNull(result);
         assertEquals(expResult.getId(), result.getId());
         assertEquals(expResult.getFirstName(), result.getFirstName());
         assertEquals(expResult.getLastName(), result.getLastName());
@@ -134,9 +168,16 @@ public class PersonFacadeTest {
     public void testEditPerson() {
         System.out.println("editPerson");
         instance.addEntityManagerFactory(emf);
-        Person p = instance.addPerson(new Person("Test", "Testsen", "test@test.dk"));
-        p.setFirstName("TestNavn");
-        Person result = instance.editPerson(p);
+        Person p = new Person("Test", "Testsen", "test@test.dk");
+        Person result = null;
+        try {
+            instance.addPerson(p);
+            p.setFirstName("TestNavn");
+            result = instance.editPerson(p);
+        } catch (TheException ex) {
+            fail(ex.getMessage());
+        }
+        assertNotNull(result);
         assertEquals(p.getId(), result.getId());
         assertEquals(p.getFirstName(), result.getFirstName());
         assertEquals(p.getLastName(), result.getLastName());

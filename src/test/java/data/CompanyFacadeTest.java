@@ -41,7 +41,7 @@ public class CompanyFacadeTest {
     }
 
     @Before
-    public void setUp() {
+    public void setUp() throws TheException {
         Persistence.generateSchema("testPU", null);
         emf = Persistence.createEntityManagerFactory("testPU");
         instance = new CompanyFacade();
