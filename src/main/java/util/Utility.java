@@ -1,5 +1,7 @@
 package util;
 
+import exception.TheException;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceException;
@@ -11,7 +13,8 @@ import javax.persistence.PersistenceException;
  */
 public class Utility {
 
-    public static void persist(EntityManagerFactory emf, Object o) {
+    public static void persist(EntityManagerFactory emf, Object o) throws
+            TheException {
         EntityManager em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
@@ -19,12 +22,15 @@ public class Utility {
             em.getTransaction().commit();
         } catch (PersistenceException ignored) {
             em.getTransaction().rollback();
+            throw new TheException("Persist failed rollback, object: "
+                                           + o.toString(), 500, false);
         } finally {
             em.close();
         }
     }
 
-    public static void merge(EntityManagerFactory emf, Object o) {
+    public static void merge(EntityManagerFactory emf, Object o) throws
+            TheException {
         EntityManager em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
@@ -32,6 +38,8 @@ public class Utility {
             em.getTransaction().commit();
         } catch (PersistenceException e) {
             em.getTransaction().rollback();
+            throw new TheException("Merge failed rollback, object: "
+                                           + o.toString(), 500, false);
         }
     }
 
