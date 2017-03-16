@@ -6,6 +6,7 @@
 package data;
 
 import entity.Company;
+import exception.TheException;
 import util.Utility;
 
 import javax.persistence.*;
@@ -37,7 +38,7 @@ public class CompanyFacade implements ICompanyFacade {
      * @return single company by id
      */
     @Override
-    public Company getCompany(int id) {
+    public Company getCompany(int id) throws TheException {
         return getCompany((long) id);
     }
 
@@ -48,9 +49,13 @@ public class CompanyFacade implements ICompanyFacade {
      * @return single company by id
      */
     @Override
-    public Company getCompany(long id) {
+    public Company getCompany(long id) throws TheException {
         EntityManager em = emf.createEntityManager();
-        return em.find(Company.class, id);
+        Company c = em.find(Company.class, id);
+        if (c == null) {
+            throw new TheException("Company with id: " + id + " not found.", 404, false);
+        }
+        return c;
     }
 
     /**
@@ -60,12 +65,16 @@ public class CompanyFacade implements ICompanyFacade {
      * @return single company by CVR number
      */
     @Override
-    public Company getCompany(String cvr) {
+    public Company getCompany(String cvr) throws TheException {
         EntityManager em = emf.createEntityManager();
         TypedQuery<Company> query = em.createQuery(
                 "SELECT c FROM Company c WHERE c.cvr = :cvr", Company.class);
         query.setParameter("cvr", cvr);
-        return query.getResultList().get(0);
+        Company c = query.getResultList().get(0);
+        if (c == null) {
+            throw new TheException("Company with cvr: " + cvr + " not found.", 404, false);
+        }
+        return c;
     }
 
     /**
@@ -74,11 +83,15 @@ public class CompanyFacade implements ICompanyFacade {
      * @return all companies
      */
     @Override
-    public List<Company> getCompanies() {
+    public List<Company> getCompanies() throws TheException {
         EntityManager em = emf.createEntityManager();
         TypedQuery<Company> query = em.createQuery(
                 "SELECT c FROM Company c", Company.class);
-        return query.getResultList();
+        List<Company> c = query.getResultList();
+        if (c.size() <= 0) {
+            throw new TheException("No companies found.", 404, false);
+        }
+        return c;
     }
 
     /**
@@ -88,12 +101,16 @@ public class CompanyFacade implements ICompanyFacade {
      * @return all companies located in given zip code
      */
     @Override
-    public List<Company> getCompanies(String zipCode) {
+    public List<Company> getCompanies(String zipCode) throws TheException {
         EntityManager em = emf.createEntityManager();
         TypedQuery<Company> query = em.createQuery(
                 "SELECT c FROM Company c WHERE c.address.city.zipCode = :zipCode", Company.class);
         query.setParameter("zipCode", zipCode);
-        return query.getResultList();
+        List<Company> c = query.getResultList();
+        if (c.size() <= 0) {
+            throw new TheException("No companies found with zip: " + zipCode + ".", 404, false);
+        }
+        return c;
     }
 
     /**
@@ -103,32 +120,36 @@ public class CompanyFacade implements ICompanyFacade {
      * @return all companies with more employees than given number
      */
     @Override
-    public List<Company> getCompanies(int employees) {
+    public List<Company> getCompanies(int employees) throws TheException {
         EntityManager em = emf.createEntityManager();
         TypedQuery<Company> query = em.createQuery(
                 "SELECT c FROM Company c WHERE c.noOfEmployees > :employees", Company.class);
         query.setParameter("employees", employees);
-        return query.getResultList();
+        List<Company> c = query.getResultList();
+        if (c.size() <= 0) {
+            throw new TheException("No companies found with more than: " + employees + " employees.", 404, false);
+        }
+        return c;
     }
 
     @Override
-    public Company addCompany(Company c) {
+    public Company addCompany(Company c) throws TheException {
         Utility.persist(emf, c);
         return c;
     }
 
     @Override
-    public Company editCompany(Company c) {
+    public Company editCompany(Company c) throws TheException {
         Utility.merge(emf, c);
         return c;
     }
 
     @Override
-    public Company deleteCompany(int id) {
-       return deleteCompany((long) id);
+    public Company deleteCompany(int id) throws TheException {
+        return deleteCompany((long) id);
     }
-    
-    public Company deleteCompany(long id) {
+
+    public Company deleteCompany(long id) throws TheException {
         EntityManager em = emf.createEntityManager();
         Company toBeRemoved = null;
         try {
@@ -138,6 +159,7 @@ public class CompanyFacade implements ICompanyFacade {
             em.getTransaction().commit();
         } catch (PersistenceException e) {
             em.getTransaction().rollback();
+            throw new TheException("Delete failed. Company with id: " + id + " not found.", 404, false);
         } finally {
             em.close();
         }
