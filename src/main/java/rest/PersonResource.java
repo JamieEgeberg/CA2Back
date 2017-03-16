@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 import data.IPersonFacade;
 import data.PersonFacade;
 import entity.Person;
+import exception.TheException;
 
 import javax.persistence.Persistence;
 import javax.ws.rs.*;
@@ -100,6 +101,12 @@ public class PersonResource {
     public String deletePerson(@PathParam("id") int id) {
         facade.deletePerson(id);
         return "{\"message\":\"Deleted person with id: \"" + id + "}";
+    }
+
+    @GET
+    @Path("/test")
+    public String testException() throws TheException {
+        throw new TheException("Testing 1, 2, 3... 1, 2, 3...");
     }
 
 }

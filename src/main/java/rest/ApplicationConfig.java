@@ -5,8 +5,10 @@
  */
 package rest;
 
-import java.util.Set;
+import exception.TheExceptionMapper;
+
 import javax.ws.rs.core.Application;
+import java.util.Set;
 
 /**
  *
@@ -34,6 +36,7 @@ public class ApplicationConfig extends Application {
         resources.add(rest.CorsRequestFilter.class);
         resources.add(rest.CorsResponseFilter.class);
         resources.add(rest.PersonResource.class);
+        resources.add(TheExceptionMapper.class);
     }
     
 }
