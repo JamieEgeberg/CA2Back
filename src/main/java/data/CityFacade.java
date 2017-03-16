@@ -77,7 +77,10 @@ public class CityFacade implements ICityFacade {
         EntityManager em = emf.createEntityManager();
         TypedQuery<City> query = em.createQuery("SELECT c FROM City c",
                                                   City.class);
-        return query.getResultList();
+        List<City> list = query.getResultList();
+        if(list == null)
+            throw new TheException("No cities in this world of mine!");
+        return list;
     }
 
     /**
