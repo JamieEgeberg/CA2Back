@@ -9,6 +9,7 @@ import entity.Address;
 import entity.Company;
 import entity.Hobby;
 import entity.Person;
+import exception.TheException;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -22,7 +23,7 @@ import java.util.List;
  */
 public class MakeTable {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws TheException {
         Persistence.generateSchema("PU", null);
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("PU");
         EntityManager em = emf.createEntityManager();
