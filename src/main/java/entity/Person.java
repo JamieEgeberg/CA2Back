@@ -50,8 +50,4 @@ public class Person extends InfoEntity implements Serializable {
         this.lastName = lastName;
     }
 
-    public void addHobby(Hobby h) {
-        hobbies.add(h);
-    }
-
 }
