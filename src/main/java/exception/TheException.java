@@ -30,6 +30,7 @@ public class TheException extends Exception {
     }
 
     public TheException(String message, int code, boolean debug) {
+        super(message);
         errorMessage = new ErrorMessage(this, message,  code, debug);
     }
 
