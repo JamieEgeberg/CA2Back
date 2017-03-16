@@ -21,6 +21,7 @@ public class TheException extends Exception {
      */
     public TheException(String message) {
         super(message);
+        errorMessage = new ErrorMessage(this, message,  500, false);
     }
 
     private ErrorMessage errorMessage;
