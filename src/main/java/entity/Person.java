@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
  * @author Jamie
  */
 @Entity
@@ -23,7 +22,7 @@ public class Person extends InfoEntity implements Serializable {
 
     private String firstName, lastName;
 
-    @ManyToMany(cascade = CascadeType.PERSIST)    
+    @ManyToMany(cascade = CascadeType.PERSIST)
     public List<Hobby> hobbies = new ArrayList<>();
 
     public Person() {
@@ -49,6 +48,10 @@ public class Person extends InfoEntity implements Serializable {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public void addHobby(Hobby h) {
+        hobbies.add(h);
     }
 
 }
