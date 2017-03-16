@@ -58,11 +58,9 @@ public class PersonFacade implements IPersonFacade {
     public List<Person> getPersons() throws TheException {
         EntityManager em = emf.createEntityManager();
         TypedQuery<Person> query = em.createQuery("SELECT p FROM Person p",
-                Person.class);
+                                                  Person.class);
         List<Person> l = query.getResultList();
-        if(l == null) throw new TheException("getPersons() resulted in null",
-                                             500,
-                                             false);
+        if (l == null) throw new TheException("No persons sexist");
         return l;
     }
 
@@ -76,16 +74,14 @@ public class PersonFacade implements IPersonFacade {
     public List<Person> getPersons(String zipCode) throws TheException {
         EntityManager em = emf.createEntityManager();
         TypedQuery<Person> query = em.createQuery("SELECT p FROM Person p "
-                + "WHERE p.address"
-                + ".city.zipCode = "
-                + ":zipCode",
-                Person.class);
+                                                          + "WHERE p.address"
+                                                          + ".city.zipCode = "
+                                                          + ":zipCode",
+                                                  Person.class);
         query.setParameter("zipCode", zipCode);
         List<Person> l = query.getResultList();
-        if(l == null) throw new TheException("getPersons(String zipCode) " +
-                                                     "resulted in null",
-                                             500,
-                                             false);
+        if (l == null)
+            throw new TheException("No persons in the zipCode:" + zipCode);
         return l;
     }
 
@@ -118,6 +114,9 @@ public class PersonFacade implements IPersonFacade {
             em.getTransaction().commit();
         } catch (PersistenceException e) {
             em.getTransaction().rollback();
+            throw new TheException(
+                    "rollback, object: " + (toBeRemoved != null ? toBeRemoved
+                            .toString() : "null"));
         } finally {
             em.close();
         }
@@ -146,7 +145,8 @@ public class PersonFacade implements IPersonFacade {
         EntityManager em = emf.createEntityManager();
 
         Person p = em.find(Person.class, id);
-        if(p == null) throw new TheException("Cannot find Person with id " + id);
+        if (p == null)
+            throw new TheException("Cannot find Person with id " + id);
         return p;
     }
 
