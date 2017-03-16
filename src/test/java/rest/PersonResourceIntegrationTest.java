@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import entity.Person;
 import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -55,8 +56,7 @@ public class PersonResourceIntegrationTest {
                 .when().get("/person")
                 .body().asString();
         System.out.println("JSON: " + json);
-        Type listType = new TypeToken<List<Person>>() {}.getType();
-        List<Person> list = gson.fromJson(json, listType);
+        List<Person> list = getListFromJson(json);
         if (!json.equals("[]")) {
             assertTrue("list should not be null, list is: " + list,
                        list != null);
@@ -69,6 +69,34 @@ public class PersonResourceIntegrationTest {
             assertTrue("list.Size() should be 0, but is: " + list.size(),
                        list.size() == 0);
         }
+    }
+
+    @Test
+    public void postPersonTest() throws Exception {
+        Person p1 = new Person("FirstName",
+                               "LastName",
+                               "Clearly@AnEmail.com");
+
+        String json = given()
+                .contentType(ContentType.JSON)
+                .body(gson.toJson(p1))
+                .when().post("/person")
+                .body().asString();
+        System.out.println("JSON: " + json);
+        Person p2 = gson.fromJson(json, Person.class);
+        assertTrue(p2.getId() > 0);
+        assertTrue(p1.equals(p2));
+    }
+
+    /**
+     * Get a List of persons from Json
+     *
+     * @param json json array of person objects
+     * @return List<Person>
+     */
+    private List<Person> getListFromJson(String json) {
+        Type type = new TypeToken<List<Person>>() {}.getType();
+        return gson.fromJson(json, type);
     }
 
 }
