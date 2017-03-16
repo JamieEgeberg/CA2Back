@@ -1,6 +1,7 @@
 package data;
 
 import entity.City;
+import exception.TheException;
 import org.junit.*;
 
 import javax.persistence.EntityManagerFactory;
@@ -9,6 +10,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 /**
  * Created by Niki on 2017-03-15.
@@ -51,7 +53,12 @@ public class CityFacadeTest {
     public void testGetCity_long() {
         System.out.println("getCity");
         long id = 6L;
-        City result = instance.getCity(id);
+        City result = null;
+        try {
+            result = instance.getCity(id);
+        } catch (TheException e) {
+            fail(e.getMessage());
+        }
         assertTrue(id == result.getId());
     }
 
@@ -62,7 +69,12 @@ public class CityFacadeTest {
     public void testGetCityByZipCode_String() {
         System.out.println("getCity");
         String zipCode = "0800";
-        City result = instance.getCity(zipCode);
+        City result = null;
+        try {
+            result = instance.getCity(zipCode);
+        } catch (TheException e) {
+            fail(e.getMessage());
+        }
         assertEquals(zipCode, result.getZipCode());
     }
 
@@ -72,7 +84,12 @@ public class CityFacadeTest {
     @Test
     public void testGetCities_0args() {
         System.out.println("getCities");
-        List<City> result = instance.getCities();
+        List<City> result = null;
+        try {
+            result = instance.getCities();
+        } catch (TheException e) {
+            fail(e.getMessage());
+        }
         assertTrue(result.size() > 0);
         result.forEach((res) -> assertTrue(res != null));
     }
