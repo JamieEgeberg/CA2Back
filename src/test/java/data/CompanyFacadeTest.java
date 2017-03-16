@@ -6,7 +6,10 @@
 package data;
 
 import entity.Company;
+import exception.TheException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import org.junit.After;
@@ -68,7 +71,13 @@ public class CompanyFacadeTest {
         System.out.println("getCompany");
         instance.addEntityManagerFactory(emf);
         long id = 6L;
-        Company result = instance.getCompany(id);
+        Company result = null;
+        try {
+            result = instance.getCompany(id);
+        } catch (TheException ex) {
+            fail(ex.getMessage());
+        }
+        assertNotNull(result);
         assertTrue(id == result.getId());
     }
 
@@ -80,7 +89,13 @@ public class CompanyFacadeTest {
         System.out.println("getCompany");
         instance.addEntityManagerFactory(emf);
         String cvr = "36363636";
-        Company result = instance.getCompany(cvr);
+        Company result = null;
+        try {
+            result = instance.getCompany(cvr);
+        } catch (TheException ex) {
+            fail(ex.getMessage());
+        }
+        assertNotNull(result);
         assertEquals(cvr, result.getCvr());
     }
 
@@ -91,7 +106,13 @@ public class CompanyFacadeTest {
     public void testGetCompanies_0args() {
         System.out.println("getCompanies");
         instance.addEntityManagerFactory(emf);
-        List<Company> result = instance.getCompanies();
+        List<Company> result = null;
+        try {
+            result = instance.getCompanies();
+        } catch (TheException ex) {
+            fail(ex.getMessage());
+        }
+        assertNotNull(result);
         assertTrue(result.size() > 0);
         result.forEach((res)
                 -> assertTrue(res != null));
@@ -105,7 +126,13 @@ public class CompanyFacadeTest {
         System.out.println("getCompanies");
         instance.addEntityManagerFactory(emf);
         String zipCode = "3600";
-        List<Company> result = instance.getCompanies(zipCode);
+        List<Company> result = null;
+        try {
+            result = instance.getCompanies(zipCode);
+        } catch (TheException ex) {
+            fail(ex.getMessage());
+        }
+        assertNotNull(result);
         result.forEach((res)
                 -> assertEquals(zipCode, res.getAddress().getCity().getZipCode()));
     }
@@ -118,7 +145,13 @@ public class CompanyFacadeTest {
         System.out.println("getCompanies");
         instance.addEntityManagerFactory(emf);
         int employees = 30;
-        List<Company> result = instance.getCompanies(employees);
+        List<Company> result = null;
+        try {
+            result = instance.getCompanies(employees);
+        } catch (TheException ex) {
+            fail(ex.getMessage());
+        }
+        assertNotNull(result);
         result.forEach((res)
                 -> assertTrue(employees < res.getNoOfEmployees()));
     }
@@ -131,7 +164,13 @@ public class CompanyFacadeTest {
         System.out.println("addCompany");
         instance.addEntityManagerFactory(emf);
         Company c = new Company("Test Co", "Testes", "00000000", 10, 10000, "test@test.dk");
-        Company result = instance.addCompany(c);
+        Company result = null;
+        try {
+            result = instance.addCompany(c);
+        } catch (TheException ex) {
+            fail(ex.getMessage());
+        }
+        assertNotNull(result);
         assertEquals(c.getId(), result.getId());
         assertEquals(c.getName(), result.getName());
         assertEquals(c.getCvr(), result.getCvr());
@@ -142,13 +181,19 @@ public class CompanyFacadeTest {
      */
     @Test
     public void testEditCompany() {
+
         System.out.println("editCompany");
         instance.addEntityManagerFactory(emf);
-        instance.addCompany(new Company("Test Co", "Testes", "00000000", 10, 10000, "test@test.dk"));
-        Company c = instance.getCompany("00000000");
-        c.setCvr("99999999");
-        Company result = instance.editCompany(c);
-
+        Company c = new Company("Test Co", "Testes", "00000000", 10, 10000, "test@test.dk");
+        Company result = null;
+        try {
+            instance.addCompany(c);
+            c.setCvr("99999999");
+            result = instance.editCompany(c);
+        } catch (TheException ex) {
+            fail(ex.getMessage());
+        }
+        assertNotNull(result);
         assertEquals(c.getId(), result.getId());
         assertEquals(c.getName(), result.getName());
         assertEquals(c.getCvr(), result.getCvr());
@@ -161,10 +206,16 @@ public class CompanyFacadeTest {
     public void testDeleteCompany() {
         System.out.println("deleteCompany");
         instance.addEntityManagerFactory(emf);
-        instance.addCompany(new Company("Test Co", "Testes", "00000000", 10, 10000, "test@test.dk"));
-        Company expResult = instance.getCompany("00000000");
-        long id = expResult.getId();
-        Company result = instance.deleteCompany(id);
+        Company expResult = new Company("Test Co", "Testes", "00000000", 10, 10000, "test@test.dk");
+        Company result = null;
+        try {
+            instance.addCompany(expResult);
+            long id = expResult.getId();
+            result = instance.deleteCompany(id);
+        } catch (TheException ex) {
+            fail(ex.getMessage());
+        }
+        assertNotNull(result);
         assertEquals(expResult.getId(), result.getId());
         assertEquals(expResult.getName(), result.getName());
         assertEquals(expResult.getCvr(), result.getCvr());
