@@ -5,15 +5,10 @@
  */
 package entity;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 
 /**
  *
@@ -27,11 +22,10 @@ public class Hobby implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
-    private String description;
+    private String name, description;
 
     @ManyToMany(mappedBy = "hobbies", cascade = CascadeType.PERSIST)
-    public List<Person> persons = new ArrayList<>();
+    public transient List<Person> persons = new ArrayList<>();
 
     public Hobby() {
     }
