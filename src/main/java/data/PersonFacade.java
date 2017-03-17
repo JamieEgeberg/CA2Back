@@ -32,6 +32,7 @@ public class PersonFacade implements IPersonFacade {
      *
      * @param id Identity id
      * @return single Person by id
+     * @throws exception.TheException
      */
     @Override
     public Person getPerson(int id) throws TheException {
@@ -39,10 +40,24 @@ public class PersonFacade implements IPersonFacade {
     }
 
     /**
+     * Get a single Persons contact info by it's Identity id
+     *
+     * @param id Identity id
+     * @return single Person by id
+     * @throws exception.TheException
+     */
+    @Override
+    public Person getPersonContactInfo(int id) throws TheException {
+        Person p = getPerson((long) id);
+        p.hobbies=null;
+        return p;
+    }
+    /**
      * Get a single Person by it's Identity id
      *
      * @param id Identity id
      * @return single Person by id
+     * @throws exception.TheException
      */
     @Override
     public Person getPerson(long id) throws TheException {
@@ -53,14 +68,17 @@ public class PersonFacade implements IPersonFacade {
      * Get all persons
      *
      * @return all persons
+     * @throws exception.TheException
      */
     @Override
     public List<Person> getPersons() throws TheException {
         EntityManager em = emf.createEntityManager();
         TypedQuery<Person> query = em.createQuery("SELECT p FROM Person p",
-                                                  Person.class);
+                Person.class);
         List<Person> l = query.getResultList();
-        if (l == null) throw new TheException("No persons sexist");
+        if (l == null) {
+            throw new TheException("No persons sexist");
+        }
         return l;
     }
 
@@ -69,19 +87,40 @@ public class PersonFacade implements IPersonFacade {
      *
      * @param zipCode zip code
      * @return all persons with given zip code
+     * @throws exception.TheException
      */
     @Override
     public List<Person> getPersons(String zipCode) throws TheException {
         EntityManager em = emf.createEntityManager();
         TypedQuery<Person> query = em.createQuery("SELECT p FROM Person p "
-                                                          + "WHERE p.address"
-                                                          + ".city.zipCode = "
-                                                          + ":zipCode",
-                                                  Person.class);
+                + "WHERE p.address"
+                + ".city.zipCode = "
+                + ":zipCode",
+                Person.class);
         query.setParameter("zipCode", zipCode);
         List<Person> l = query.getResultList();
-        if (l == null)
+        if (l == null) {
             throw new TheException("No persons in the zipCode:" + zipCode);
+        }
+        return l;
+    }
+
+    /**
+     * Get all persons contact info
+     *
+     * @return all persons
+     * @throws exception.TheException
+     */
+    @Override
+    public List<Person> getPersonsContactInfo() throws TheException {
+        EntityManager em = emf.createEntityManager();
+        TypedQuery<Person> query = em.createQuery("SELECT p FROM Person p ",
+                Person.class);
+        List<Person> l = query.getResultList();        
+        if (l == null) {
+            throw new TheException("No persons sexist");
+        }
+        l.forEach((p)-> p.hobbies = null);
         return l;
     }
 
@@ -90,6 +129,7 @@ public class PersonFacade implements IPersonFacade {
      *
      * @param p person
      * @return person added
+     * @throws exception.TheException
      */
     @Override
     public Person addPerson(Person p) throws TheException {
@@ -102,6 +142,7 @@ public class PersonFacade implements IPersonFacade {
      *
      * @param id Identity Id
      * @return Person deleted
+     * @throws exception.TheException
      */
     @Override
     public Person deletePerson(long id) throws TheException {
@@ -128,6 +169,7 @@ public class PersonFacade implements IPersonFacade {
      *
      * @param p person
      * @return person updated
+     * @throws exception.TheException
      */
     @Override
     public Person editPerson(Person p) throws TheException {
@@ -145,8 +187,9 @@ public class PersonFacade implements IPersonFacade {
         EntityManager em = emf.createEntityManager();
 
         Person p = em.find(Person.class, id);
-        if (p == null)
+        if (p == null) {
             throw new TheException("Cannot find Person with id " + id);
+        }
         return p;
     }
 
