@@ -62,7 +62,7 @@ public class PersonResource {
     @Path("contactinfo")
     @Produces(MediaType.APPLICATION_JSON)
     public String getPersonsContactInfo() throws TheException {
-        return gson.toJson(facade.getPersons());
+        return gson.toJson(facade.getPersonsContactInfo());
     }
 
     /**
@@ -76,7 +76,7 @@ public class PersonResource {
     @Path("contactinfo/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public String getPersonContactInfoById(@PathParam("id") int id) throws TheException {
-        return gson.toJson(facade.getPerson(id));
+        return gson.toJson(facade.getPersonContactInfo(id));
     }
 
     @GET
