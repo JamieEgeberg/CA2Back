@@ -5,18 +5,19 @@
  */
 package rest;
 
+import com.google.gson.Gson;
 import data.CityFacade;
 import data.ICityFacade;
+import exception.TheException;
 
 import javax.persistence.Persistence;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.UriInfo;
-import javax.ws.rs.Produces;
-import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
-import javax.ws.rs.PUT;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.UriInfo;
 
 /**
  * REST Web Service
@@ -26,6 +27,7 @@ import javax.ws.rs.core.MediaType;
 @Path("city")
 public class CityResource {
 
+    private static Gson gson = new Gson();
     private ICityFacade facade = new CityFacade();
 
     @Context
@@ -39,23 +41,18 @@ public class CityResource {
                 Persistence.createEntityManagerFactory("PU"));
     }
 
-    /**
-     * Retrieves representation of an instance of rest.CityResource
-     * @return an instance of java.lang.String
-     */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public String getJson() {
-        //TODO return proper representation object
-        throw new UnsupportedOperationException();
+    public String getCities() throws TheException {
+        return gson.toJson(facade.getCities());
     }
 
-    /**
-     * PUT method for updating or creating an instance of CityResource
-     * @param content representation for the resource
-     */
-    @PUT
-    @Consumes(MediaType.APPLICATION_JSON)
-    public void putJson(String content) {
+    @GET
+    @Path("{zipCode}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getPersonById(@PathParam("zipCode") String zipCode)
+            throws TheException {
+        return gson.toJson(facade.getCity(zipCode));
     }
+
 }
