@@ -7,17 +7,13 @@ package data;
 
 import entity.Company;
 import exception.TheException;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.junit.*;
+import util.Util;
+
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import util.Util;
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 /**
@@ -26,19 +22,8 @@ import static org.junit.Assert.*;
  */
 public class CompanyFacadeTest {
 
-    EntityManagerFactory emf;
-    CompanyFacade instance;
-
-    public CompanyFacadeTest() {
-    }
-
-    @BeforeClass
-    public static void setUpClass() {
-    }
-
-    @AfterClass
-    public static void tearDownClass() {
-    }
+    private EntityManagerFactory emf;
+    private CompanyFacade instance;
 
     @Before
     public void setUp() throws TheException {
@@ -46,10 +31,6 @@ public class CompanyFacadeTest {
         emf = Persistence.createEntityManagerFactory("testPU");
         instance = new CompanyFacade();
         Util.databaseInit(emf);
-    }
-
-    @After
-    public void tearDown() {
     }
 
     /**

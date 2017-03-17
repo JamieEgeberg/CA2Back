@@ -183,7 +183,7 @@ public class PersonFacade implements IPersonFacade {
      * @param id Identity Id
      * @return Person with given Id
      */
-    Person find(Long id) throws TheException {
+    private Person find(Long id) throws TheException {
         EntityManager em = emf.createEntityManager();
 
         Person p = em.find(Person.class, id);

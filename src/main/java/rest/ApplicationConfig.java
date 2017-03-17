@@ -5,8 +5,6 @@
  */
 package rest;
 
-import exception.TheExceptionMapper;
-
 import javax.ws.rs.core.Application;
 import java.util.Set;
 

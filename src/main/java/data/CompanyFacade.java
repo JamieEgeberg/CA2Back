@@ -151,7 +151,7 @@ public class CompanyFacade implements ICompanyFacade {
 
     public Company deleteCompany(long id) throws TheException {
         EntityManager em = emf.createEntityManager();
-        Company toBeRemoved = null;
+        Company toBeRemoved;
         try {
             em.getTransaction().begin();
             toBeRemoved = em.merge(em.find(Company.class, id));

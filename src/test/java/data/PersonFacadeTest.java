@@ -7,38 +7,22 @@ package data;
 
 import entity.Person;
 import exception.TheException;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import static org.junit.Assert.*;
+import org.junit.*;
 import util.Util;
 
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import java.util.List;
+
+import static org.junit.Assert.*;
+
 /**
- *
  * @author Jamie
  */
 public class PersonFacadeTest {
 
-    EntityManagerFactory emf;
-    PersonFacade instance;
-
-    public PersonFacadeTest() {
-    }
-
-    @BeforeClass
-    public static void setUpClass() {
-    }
-
-    @AfterClass
-    public static void tearDownClass() {
-    }
+    private EntityManagerFactory emf;
+    private PersonFacade instance;
 
     @Before
     public void setUp() throws TheException {
@@ -46,10 +30,6 @@ public class PersonFacadeTest {
         emf = Persistence.createEntityManagerFactory("testPU");
         instance = new PersonFacade();
         Util.databaseInit(emf);
-    }
-
-    @After
-    public void tearDown() {
     }
 
     /**
@@ -96,8 +76,7 @@ public class PersonFacadeTest {
         }
         assertNotNull(result);
         assertTrue(result.size() > 0);
-        result.forEach((res)
-                -> assertTrue(res != null));
+        result.forEach((res) -> assertTrue(res != null));
     }
 
     /**
@@ -116,7 +95,9 @@ public class PersonFacadeTest {
         }
         assertNotNull(result);
         result.forEach((res)
-                -> assertEquals(zipCode, res.getAddress().getCity().getZipCode()));
+                               -> assertEquals(zipCode, res.getAddress()
+                                                           .getCity()
+                                                           .getZipCode()));
     }
 
     /**

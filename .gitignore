@@ -55,8 +55,6 @@ modules.xml
 
 ### Java ###
 # Compiled class file
-*.class
-
 # Log file
 *.log
 
@@ -67,8 +65,6 @@ modules.xml
 .mtj.tmp/
 
 # Package Files #
-*.jar
-*.war
 *.ear
 *.zip
 *.tar.gz

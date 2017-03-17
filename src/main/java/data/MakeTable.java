@@ -35,7 +35,7 @@ public class MakeTable {
         List<Hobby> h = new ArrayList<>();
         h.add(new Hobby("Biking", "To ride a bike"));
         h.add(new Hobby("Fitness", "To lift things made of metal"));
-        h.add(new Hobby("Gaming", "To play computergames"));
+        h.add(new Hobby("Gaming", "To play computer games"));
         h.add(new Hobby("Knitting", "To make garments of wool using needles"));
         h.add(new Hobby("Time Travel", "To travel through time"));
 

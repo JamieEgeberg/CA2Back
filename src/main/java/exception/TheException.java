@@ -39,7 +39,4 @@ public class TheException extends Exception {
         return errorMessage;
     }
 
-    public void setErrorMessage(ErrorMessage errorMessage) {
-        this.errorMessage = errorMessage;
-    }
 }

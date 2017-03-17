@@ -88,7 +88,7 @@ public class CityFacade implements ICityFacade {
      * @param id Identity Id
      * @return City with given Id
      */
-    City find(Long id) throws TheException {
+    private City find(Long id) throws TheException {
         EntityManager em = emf.createEntityManager();
 
         City c = em.find(City.class, id);
