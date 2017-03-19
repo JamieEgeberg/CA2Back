@@ -76,8 +76,8 @@ public class PersonFacade implements IPersonFacade {
         TypedQuery<Person> query = em.createQuery("SELECT p FROM Person p",
                 Person.class);
         List<Person> l = query.getResultList();
-        if (l == null) {
-            throw new TheException("No persons sexist");
+        if (l.isEmpty()) {
+            throw new TheException("No persons found");
         }
         return l;
     }
@@ -118,7 +118,7 @@ public class PersonFacade implements IPersonFacade {
                 Person.class);
         List<Person> l = query.getResultList();        
         if (l == null) {
-            throw new TheException("No persons sexist");
+            throw new TheException("No persons found");
         }
         l.forEach((p)-> p.hobbies = null);
         return l;
@@ -156,7 +156,7 @@ public class PersonFacade implements IPersonFacade {
         } catch (PersistenceException e) {
             em.getTransaction().rollback();
             throw new TheException(
-                    "rollback, object: " + (toBeRemoved != null ? toBeRemoved
+                    "Could not delete. Rollback, object: " + (toBeRemoved != null ? toBeRemoved
                             .toString() : "null"));
         } finally {
             em.close();
@@ -188,7 +188,7 @@ public class PersonFacade implements IPersonFacade {
 
         Person p = em.find(Person.class, id);
         if (p == null) {
-            throw new TheException("Cannot find Person with id " + id);
+            throw new TheException("Person with id: "+id+" not found.");
         }
         return p;
     }
