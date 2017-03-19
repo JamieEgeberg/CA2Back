@@ -70,7 +70,7 @@ public class PersonFacadeTest {
         instance.addEntityManagerFactory(emf);
         List<Person> result = null;
         try {
-            result = instance.getPersons();
+            result = instance.getPersonsByZipCode();
         } catch (TheException ex) {
             fail(ex.getMessage());
         }
@@ -89,7 +89,7 @@ public class PersonFacadeTest {
         String zipCode = "3600";
         List<Person> result = null;
         try {
-            result = instance.getPersons(zipCode);
+            result = instance.getPersonsByZipCode(zipCode);
         } catch (TheException ex) {
             fail(ex.getMessage());
         }

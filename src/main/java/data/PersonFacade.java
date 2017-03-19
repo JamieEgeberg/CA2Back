@@ -4,7 +4,10 @@ import entity.Person;
 import exception.TheException;
 import util.Utility;
 
-import javax.persistence.*;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceException;
+import javax.persistence.TypedQuery;
 import java.util.List;
 
 /**
@@ -49,9 +52,10 @@ public class PersonFacade implements IPersonFacade {
     @Override
     public Person getPersonContactInfo(int id) throws TheException {
         Person p = getPerson((long) id);
-        p.hobbies=null;
+        p.hobbies = null;
         return p;
     }
+
     /**
      * Get a single Person by it's Identity id
      *
@@ -71,10 +75,10 @@ public class PersonFacade implements IPersonFacade {
      * @throws exception.TheException
      */
     @Override
-    public List<Person> getPersons() throws TheException {
+    public List<Person> getPersonsByZipCode() throws TheException {
         EntityManager em = emf.createEntityManager();
         TypedQuery<Person> query = em.createQuery("SELECT p FROM Person p",
-                Person.class);
+                                                  Person.class);
         List<Person> l = query.getResultList();
         if (l.isEmpty()) {
             throw new TheException("No persons found");
@@ -90,17 +94,41 @@ public class PersonFacade implements IPersonFacade {
      * @throws exception.TheException
      */
     @Override
-    public List<Person> getPersons(String zipCode) throws TheException {
+    public List<Person> getPersonsByZipCode(String zipCode) throws TheException {
         EntityManager em = emf.createEntityManager();
         TypedQuery<Person> query = em.createQuery("SELECT p FROM Person p "
-                + "WHERE p.address"
-                + ".city.zipCode = "
-                + ":zipCode",
-                Person.class);
+                                                          + "WHERE p.address"
+                                                          + ".city.zipCode = "
+                                                          + ":zipCode",
+                                                  Person.class);
         query.setParameter("zipCode", zipCode);
         List<Person> l = query.getResultList();
         if (l == null) {
             throw new TheException("No persons in the zipCode:" + zipCode);
+        }
+        return l;
+    }
+
+    /**
+     * Get all persons with the given hobby
+     *
+     * @param id hobby id
+     * @return all persons with the given hobby
+     * @throws exception.TheException
+     */
+    @Override
+    public List<Person> getPersonsByHobby(long id) throws TheException {
+        EntityManager em = emf.createEntityManager();
+        TypedQuery<Person> query = em.createQuery("SELECT p FROM Person p " +
+                                                          "INNER JOIN " +
+                                                          "p.hobbies h " +
+                                                          "WHERE " +
+                                                          "h.id = :hobby",
+                                                  Person.class);
+        query.setParameter("hobby", id);
+        List<Person> l = query.getResultList();
+        if (l == null) {
+            throw new TheException("No persons with the hobby: " + id);
         }
         return l;
     }
@@ -115,12 +143,12 @@ public class PersonFacade implements IPersonFacade {
     public List<Person> getPersonsContactInfo() throws TheException {
         EntityManager em = emf.createEntityManager();
         TypedQuery<Person> query = em.createQuery("SELECT p FROM Person p ",
-                Person.class);
-        List<Person> l = query.getResultList();        
+                                                  Person.class);
+        List<Person> l = query.getResultList();
         if (l == null) {
             throw new TheException("No persons found");
         }
-        l.forEach((p)-> p.hobbies = null);
+        l.forEach((p) -> p.hobbies = null);
         return l;
     }
 
@@ -156,7 +184,8 @@ public class PersonFacade implements IPersonFacade {
         } catch (PersistenceException e) {
             em.getTransaction().rollback();
             throw new TheException(
-                    "Could not delete. Rollback, object: " + (toBeRemoved != null ? toBeRemoved
+                    "Could not delete. Rollback, object: " + (toBeRemoved !=
+                            null ? toBeRemoved
                             .toString() : "null"));
         } finally {
             em.close();
@@ -188,7 +217,7 @@ public class PersonFacade implements IPersonFacade {
 
         Person p = em.find(Person.class, id);
         if (p == null) {
-            throw new TheException("Person with id: "+id+" not found.");
+            throw new TheException("Person with id: " + id + " not found.");
         }
         return p;
     }

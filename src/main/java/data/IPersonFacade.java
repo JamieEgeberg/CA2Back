@@ -28,6 +28,7 @@ public interface IPersonFacade {
      * @return single Person by id
      */
     Person getPerson(int id) throws TheException;
+
     /**
      * Get a single Person by it's Identity id
      *
@@ -49,7 +50,7 @@ public interface IPersonFacade {
      *
      * @return all persons
      */
-    List<Person> getPersons() throws TheException;
+    List<Person> getPersonsByZipCode() throws TheException;
 
     /**
      * Get all persons in given zip code
@@ -57,13 +58,23 @@ public interface IPersonFacade {
      * @param zipCode zip code
      * @return all persons with given zip code
      */
-    List<Person> getPersons(String zipCode) throws TheException;
- /**
+    List<Person> getPersonsByZipCode(String zipCode) throws TheException;
+
+    /**
+     * Get all persons with the given hobby
+     *
+     * @param id hobby id
+     * @return all persons with the given hobby
+     */
+    List<Person> getPersonsByHobby(long id) throws TheException;
+
+    /**
      * Get all persons contact info
      *
      * @return all persons
      */
     List<Person> getPersonsContactInfo() throws TheException;
+
     /**
      * Add person to database and return it
      *

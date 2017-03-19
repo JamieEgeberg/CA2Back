@@ -42,7 +42,7 @@ public class PersonResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public String getPersons() throws TheException {
-        return gson.toJson(facade.getPersons());
+        return gson.toJson(facade.getPersonsByZipCode());
     }
 
     @GET
@@ -83,7 +83,14 @@ public class PersonResource {
     @Path("zip/{zipCode}")
     @Produces(MediaType.APPLICATION_JSON)
     public String getPersonByZip(@PathParam("zipCode") String zipCode) throws TheException {
-        return gson.toJson(facade.getPersons(zipCode));
+        return gson.toJson(facade.getPersonsByZipCode(zipCode));
+    }
+
+    @GET
+    @Path("hobby/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getPersonByHobby(@PathParam("id") long id) throws TheException {
+        return gson.toJson(facade.getPersonsByHobby(id));
     }
 
     @POST
