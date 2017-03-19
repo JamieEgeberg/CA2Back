@@ -41,7 +41,8 @@
         </dependency>
         <dependency>
             <groupId>org.eclipse.persistence</groupId>
-            <artifactId>org.eclipse.persistence.jpa.modelgen.processor</artifactId>
+            <artifactId>org.eclipse.persistence.jpa.modelgen.processor
+            </artifactId>
             <version>2.5.2</version>
             <scope>provided</scope>
         </dependency>
@@ -79,7 +80,7 @@
         </dependency>
     </dependencies>
 
-     <build>
+    <build>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -166,7 +167,7 @@
                     </container>
                     <configuration>
                         <properties>
-                            <cargo.servlet.port>8080</cargo.servlet.port>
+                            <cargo.servlet.port>8081</cargo.servlet.port>
                             <wait>false</wait>
                         </properties>
                     </configuration>
@@ -208,27 +209,6 @@
                                 <goals>
                                     <goal>stop</goal>
                                 </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-surefire-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <phase>integration-test</phase>
-                                <goals>
-                                    <goal>test</goal>
-                                </goals>
-                                <configuration>
-                                    <excludes>
-                                        <exclude>none</exclude>
-                                    </excludes>
-                                    <includes>
-                                        <include>**/*IntegrationTest.java
-                                        </include>
-                                    </includes>
-                                </configuration>
                             </execution>
                         </executions>
                     </plugin>
